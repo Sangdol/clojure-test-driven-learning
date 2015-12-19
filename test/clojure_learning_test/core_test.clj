@@ -1,9 +1,17 @@
+; References
+; * Test API https://clojure.github.io/clojure/clojure.test-api.html
+; * In y minutes http://learnxinyminutes.com/docs/clojure/
+; * Docs https://clojuredocs.org/
+
 (ns clojure-learning-test.core-test
   (:require [clojure.test :refer :all]
             [clojure-learning-test.core :refer :all]
             [clojure.math.numeric-tower :as math])
+  ; Using asterisk(*) is not possible
+  ; http://stackoverflow.com/questions/1990714/does-clojure-have-an-equivalent-of-javas-import-package
   (:import java.time.LocalDateTime
            java.time.LocalDate))
+
 
 ; Use "use" to get all functions from the module
 ; e.g., intersection, difference
@@ -21,15 +29,6 @@
 (import java.util.Date)
 (import java.util.Calendar)
 
-; References
-; * Test API https://clojure.github.io/clojure/clojure.test-api.html
-; * In y minutes http://learnxinyminutes.com/docs/clojure/
-; * Docs https://clojuredocs.org/
-
-; Commands
-; $ lein test
-; $ watch-vi "*" "lein test" # in this directory
-
 ;
 ; assertions
 ;
@@ -42,14 +41,17 @@
 
 ;
 ; documenting tests
+; "must occur in a test function (deftest)
+; https://clojure.github.io/clojure/clojure.test-api.html#clojure.test/testing
 ;
-(testing "Arithmetic"
-  (testing "with positive integers"
-    (is (= 4 (+ 2 2)))
-    (is (= 7 (+ 3 4)))
-  (testing "with negative integers"
-    (is (= -4 (+ -2 -2)))
-    (is (= -1 (+ 3 -4))))))
+(deftest test-testing
+  (testing "Arithmetic"
+    (testing "with positive integers"
+      (is (= 4 (+ 2 2)))
+      (is (= 7 (+ 3 4)))
+    (testing "with negative integers"
+      (is (= -4 (+ -2 -2)))
+      (is (= -1 (+ 3 -4)))))))
 
 ;
 ; defining tests
@@ -77,7 +79,9 @@
 (deftest comparison
   (is (if (= 1 1) true false))
   (is (and true true))
-  (is (or true false)))
+  (is (or true false))
+  (is (= (or nil false 1) 1))
+  (is (= (or nil 0 1) 0)))
 
 ; defn
 ; https://clojuredocs.org/clojure.core/defn
@@ -105,6 +109,13 @@
   (is (= (sum-of-mod-of-3-5 999 0) 233168))
   (is (= (sum-of-mod-of-3-5 999) 233168)))
 
+; Java 8 date
+(def sample-date (LocalDateTime/of 2015 12 6 23 11))
+(deftest java-8-date-test
+  (is (= (.getDayOfMonth sample-date) 6))
+  (is (= (.getHour sample-date) 23))
+  (is (>= (.getYear (LocalDateTime/now)) 2015)))
+
 ; Math
 ; clojure.math.numeric-tower
 ; https://github.com/clojure/math.numeric-tower
@@ -119,7 +130,7 @@
   (is (= (math/ceil 1.1) 2.0))
   (is (= (math/round 1.5) 2)))
 
-; Learn X in Y minutes
+; Learn X in Y minutes + Extra
 ; http://learnxinyminutes.com/docs/clojure/
 ;
 ; What is difference between Vector and List?
@@ -163,6 +174,13 @@
   ; Conj add an item to a collection in the most effective way.
   (is (= (conj [1 2 3] 4) [1 2 3 4]))
   (is (= (conj '(1 2 3) 4) '(4 1 2 3)))
+  (is (= (conj [1 2] 3 4) [1 2 3 4]))
+  (is (= (conj [1 2] '(3 4)) [1 2 '(3 4)]))
+  (is (= (conj [1 2] [3 4]) [1 2 [3 4]]))
+  (is (= (conj {1 2} [3 4]) {1 2 3 4}))
+  (is (= (conj {1 2} [3 4] {5 6}) {1 2 3 4 5 6}))
+
+  (is (= [:a :b :c] '(:a :b :c) (vec '(:a :b :c)) (vector :a :b :c)))
 
   ; What is difference between cons and conj?
   ; http://stackoverflow.com/questions/3008411/clojure-consseq-vs-conjlist
@@ -214,13 +232,18 @@
   (is (= (hello "world") "Hello world"))
 
   (def hello2 #(str "Hello " %1))
-  (is (= (hello "world") "Hello world"))
+  (is (= (hello2 "world") "Hello world"))
+
+  (def hello2-1 #(str "Hello " %))
+  (is (= (hello2-1 "world") "Hello world"))
 
   (defn hello3
     ([] "Hello world")
-    ([name] (str "Hello " name)))
+    ([name] (str "Hello " name))
+    ([name age] (str "Hello " name "(" age ")")))
   (is (= (hello3) "Hello world"))
   (is (= (hello3 "world") "Hello world"))
+  (is (= (hello3 "world" 33) "Hello world(33)"))
 
   ; Pack arguments up in a seq
   (defn count-args [& args]
@@ -230,6 +253,20 @@
   (defn hello-count [name & args]
     (str "Hello " name ", args: " args))
   (is (= (hello-count "SH" 1 2 3) "Hello SH, args: (1 2 3)"))
+
+  ; Partial
+  ; https://clojuredocs.org/clojure.core/partial
+  (def hundred-times (partial * 100))
+  (is (= (hundred-times 3) 300))
+  (is (= (hundred-times 3 2) 600))
+
+  (def minus-from-hundred (partial - 100))
+  (is (= (minus-from-hundred 30) 70))
+  (is (= (minus-from-hundred 30 20) 50))
+
+  (defn add-and-multiply [m]
+    (partial (fn [m n] (* (+ m n) n)) m))
+  (is (= ((add-and-multiply 2) 3) 15))
 
   ;;;;;;
   ; Maps
@@ -255,6 +292,9 @@
   (def newkeymap (assoc keymap :d 4))
   (is (= newkeymap {:a 1 :b 2 :c 3 :d 4}))
   (is (= (dissoc newkeymap :c :d) {:a 1 :b 2}))
+
+  (is (= (vals {:a 1 :b 2}) '(1 2)))
+  (is (= (first (vals {:a 1 :b 2})) 1))
 
   ;;;;;;
   ; Sets
@@ -293,6 +333,12 @@
   (let [name "SH"]
     (is (= name "SH"))
     (is (not (= name "HJ"))))
+
+  ; letfn
+  ; https://clojuredocs.org/clojure.core/letfn
+  (letfn [(add-5 [x]
+            (+ x 5))]
+    (is (= (add-5 3) 8)))
 
   ; Use the threading macros (-> and ->>)
   (is (= (->
