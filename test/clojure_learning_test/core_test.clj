@@ -130,6 +130,29 @@
   (is (= (math/ceil 1.1) 2.0))
   (is (= (math/round 1.5) 2)))
 
+; Loop
+; https://clojuredocs.org/clojure.core/for
+(deftest loop-test
+  (is (= (for [x [0 1] :let [y (* x 2)]] y), [0 2]))
+  (is (= (for [x [0 1] :let [y (* x 2)] :when (> y 0)] y), [2]))
+  (def digits (seq [1 2]))
+  (is (= (for [x1 digits x2 digits x3 digits] (* x1 x2 x3))
+         [1 2 2 4 2 4 4 8]))
+  (is (= (for [x digits y digits z digits :when (= x y z)] x) [1 2]))
+  (is (= (for [x digits y digits z digits :while (= x y z)] x) [1]))
+  )
+
+; Misc
+(deftest mist-test
+  (is (= (some even? '(1 2 3)) true))
+  (is (= (some even? '(1 3 5)) nil))
+  (is (not= (some even? '(1 3 5)) false))
+  (is (= (some identity '(nil false 1)) 1))
+  (is (= (some #(and (even? %) %) '(-1 3 1 2)) 2))
+  (is (= (when true 1) 1))
+  (is (= (when false 1) nil))
+  )
+
 ; Learn X in Y minutes + Extra
 ; http://learnxinyminutes.com/docs/clojure/
 ;
@@ -149,6 +172,8 @@
   (is (not (= '(+ 1 2) (+ 1 2))))
   (is (= '(+ 1 2) (list '+ 1 2)))
   (is (= (eval '(+ 1 2)) (+ 1 2)))
+  (is (= (first (first '((1)))) 1))
+  (is (= '((1)) [[1]]))
 
   ; What is difference between Vector and List?
   ; http://stackoverflow.com/questions/1147975/in-clojure-when-should-i-use-a-vector-over-a-list-and-the-other-way-around
@@ -158,6 +183,7 @@
   (is (= '(1 2 3) (list 1 2 3)))
   (is (coll? '(1 2 3)))
   (is (coll? [1 2 3]))
+  (is (= [1 2] '(1 2)))
 
   ; "Sequences" (seqs) are abstract descriptions of lists of data.
   (is (seq? '(1 2 3)))
@@ -170,6 +196,8 @@
   ; Use cons to add an item to the beginning of a list or vector
   (is (= (cons 4 [1 2 3]) [4 1 2 3]))
   (is (= (cons 4 '(1 2 3)) '(4 1 2 3)))
+  (is (= (cons [] [1]) '([] 1)))
+  (is (= (cons [] [1]) [[] 1]))
 
   ; Conj add an item to a collection in the most effective way.
   (is (= (conj [1 2 3] 4) [1 2 3 4]))
@@ -177,7 +205,7 @@
   (is (= (conj [1 2] 3 4) [1 2 3 4]))
   (is (= (conj [1 2] '(3 4)) [1 2 '(3 4)]))
   (is (= (conj [1 2] [3 4]) [1 2 [3 4]]))
-  (is (= (conj {1 2} [3 4]) {1 2 3 4}))
+  (is (= (conj {1 2} [3 4]) {1 2 3 4})) ; Map
   (is (= (conj {1 2} [3 4] {5 6}) {1 2 3 4 5 6}))
 
   (is (= [:a :b :c] '(:a :b :c) (vec '(:a :b :c)) (vector :a :b :c)))
@@ -208,7 +236,13 @@
   (is (= (reduce + '(1 2 3 4)) 10))
   (is (= (reduce - '(1 2 3 4)) -8))
   (is (= (reduce conj [] '(1 2 3)) [1 2 3]))
-  ;(is (= (reduce cons [] '(1 2 3)) [1 2 3]))
+  (is (= (reduce cons 0 [[1] [2] [3]]) [[[0 1] 2] 3]))
+
+  ; count http://www.4clojure.com/problem/solutions/22
+  (is (= (count [1 2 3]) 3))
+  (is (= (count "abc") 3))
+  (is (= (reduce #(and %2 (inc %1)) 0 [1 2 3]) 3))
+  (is (= (reduce (fn [n _] (inc n)) 0 [1 2 3]) 3))
 
   ;;;;;;;;;;;
   ; Functions
@@ -254,7 +288,7 @@
     (str "Hello " name ", args: " args))
   (is (= (hello-count "SH" 1 2 3) "Hello SH, args: (1 2 3)"))
 
-  ; Partial
+  ; partial
   ; https://clojuredocs.org/clojure.core/partial
   (def hundred-times (partial * 100))
   (is (= (hundred-times 3) 300))
@@ -267,6 +301,23 @@
   (defn add-and-multiply [m]
     (partial (fn [m n] (* (+ m n) n)) m))
   (is (= ((add-and-multiply 2) 3) 15))
+
+  ; comp
+  ; https://clojuredocs.org/clojure.core/comp
+  (let [muliply-and-minus (comp - *)
+        countif (comp count filter)]
+    (is (= (muliply-and-minus 2 3) -6))
+    (is (= (countif even? [1 2 3]) 1)))
+
+  ; apply
+  ; https://clojuredocs.org/clojure.core/apply
+  (let [li ["a" "b" "c"]]
+    (is (= (str li) "[\"a\" \"b\" \"c\"]"))
+    (is (= (apply str li) "abc")))
+
+  (is (= (identity 1) 1))
+  (is (= (filter identity [1 2 3 nil]) '(1 2 3)))
+  (is (= (partition-by identity "HHa") '((\H \H) (\a))))
 
   ;;;;;;
   ; Maps
@@ -295,6 +346,15 @@
 
   (is (= (vals {:a 1 :b 2}) '(1 2)))
   (is (= (first (vals {:a 1 :b 2})) 1))
+
+  (is (= (get-in {:a {:b 1}} [:a :b]) 1))
+  (is (= (get-in {:a {:b 1}} [:a :c]) nil))
+  (is (= (get-in {:a {:b 1}} [:a :c] "not found") "not found"))
+
+  ; https://clojuredocs.org/clojure.core/assoc-in
+  (def keymap2 {:a {:b 1}})
+  (is (= (assoc-in keymap2 [:a :b] 2) {:a {:b 2}}))
+  (is (= (assoc-in keymap2 [:a :c] 2) {:a {:b 1, :c 2}}))
 
   ;;;;;;
   ; Sets
@@ -341,18 +401,24 @@
     (is (= (add-5 3) 8)))
 
   ; Use the threading macros (-> and ->>)
+  ; thread-first
   (is (= (->
            {:a 1 :b 2}
            (assoc :c 3)
            (dissoc :b))
          (dissoc (assoc {:a 1 :b 2} :c 3) :b)))
 
+  ; thread-last
+  ; http://stackoverflow.com/questions/26034376/clojure-thread-first-macro-and-thread-last-macro
   (is (= (->>
            (range 10)
            (map inc)
            (filter odd?)
            (into [])) ;[1 3 5 7 9]))
          (vec (filter odd? (map inc (range 10))))))
+
+  ; Special forms
+  ; http://clojure.org/special_forms
 
   ;;;;;;;;;
   ; Modules
