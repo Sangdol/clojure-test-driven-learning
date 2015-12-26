@@ -1,8 +1,18 @@
+;;; Reader - http://clojure.org/reader#toc2
+;;; TODO Special forms - http://clojure.org/special_forms
 (ns clojure-learning-test.syntax-test
   (:require [clojure.test :refer :all]))
 
-; https://clojuredocs.org/clojure.core/defn
+(deftest cond-test
+  "switch"
+  (is (= (cond
+           (> 1 1) "hey"
+           (> 2 2) "no"
+           :else true) true))
+  )
+
 (defn get-if-mod-of-3-5 [n]
+  "https://clojuredocs.org/clojure.core/defn"
   (if (or (= (mod n 3)  0) (= (mod n 5) 0))
     n 0))
 
@@ -26,7 +36,6 @@
   (is (= (sum-of-mod-of-3-5 999 0) 233168))
   (is (= (sum-of-mod-of-3-5 999) 233168)))
 
-; https://clojuredocs.org/clojure.core/for
 (deftest loop-test
   (is (= (for [x [0 1] :let [y (* x 2)]] y), [0 2]))
   (is (= (for [x [0 1] :let [y (* x 2)] :when (> y 0)] y), [2]))
@@ -37,7 +46,6 @@
   (is (= (for [x digits y digits z digits :while (= x y z)] x) [1])))
 
 (deftest class-test
-  ; Class
   (is (= (class 1) Long))
   (is (= (class 1.) Double))
   (is (= (class "") String))
@@ -45,7 +53,6 @@
   (is (= (class nil) nil)))
 
 (deftest literal-test
-  ; Literal
   (is (not= '(+ 1 2) (+ 1 2)))
   (is (= '(+ 1 2) (list '+ 1 2)))
   (is (= (eval '(+ 1 2)) (+ 1 2)))
@@ -53,10 +60,18 @@
   (is (= '((1)) [[1]])))
 
 (deftest function-test
-  ; Function is an anonymous class from the perspective of JVM
-  ; http://stackoverflow.com/questions/3708516/what-type-is-a-function
+  "
+  Function is an anonymous class from the perspective of JVM
+  http://stackoverflow.com/questions/3708516/what-type-is-a-function
+  "
   (is (instance? clojure.lang.IFn (fn [] "")))
   (is (= ((fn [] "Hello world")) "Hello world"))
+  (testing "name of fn can be used for internal recursion
+      http://stackoverflow.com/questions/10490513/how-to-do-recursion-in-anonymous-fn-without-tail-recursion"
+    (is (= ((fn pow [n e]
+              (if (zero? e)
+                1
+                (* n (pow n (dec e))))) 2 3) 8)))
 
   (def x 1)
   (is (= x 1))
@@ -98,54 +113,55 @@
   (is (= (if false "a" "b") "b"))
   (is (= (if false "a") nil))
 
-  ; Use let to create temporary bindings
+  ;; Use let to create temporary bindings
   (is (= (let [a 1 b 2] (> b a))))
 
-  ; Group statements together with do
+  ;; Group statements together with do
   (do
     (def a 1)
     (def b 2)
     (is (< a b)))
 
-  ; Functions have an implicit do
+  ;; Functions have an implicit do
   (defn test-impl-do [name]
     (def n "SH")
     (is (= name n)))
   (test-impl-do "SH")
 
-  ; So does let
+  ;; So does let
   (let [name "SH"]
     (is (= name "SH"))
     (is (not (= name "HJ"))))
 
-  ; letfn
-  ; https://clojuredocs.org/clojure.core/letfn
+  ;; letfn
+  ;; https://clojuredocs.org/clojure.core/letfn
   (letfn [(add-5 [x]
             (+ x 5))]
     (is (= (add-5 3) 8)))
 
-  ; Use the threading macros (-> and ->>)
-  ; thread-first
+  ;; Use the threading macros (-> and ->>)
+  ;; thread-first
   (is (= (->
            {:a 1 :b 2}
            (assoc :c 3)
            (dissoc :b))
          (dissoc (assoc {:a 1 :b 2} :c 3) :b)))
 
-  ; thread-last
-  ; http://stackoverflow.com/questions/26034376/clojure-thread-first-macro-and-thread-last-macro
+  ;; thread-last
+  ;; http://stackoverflow.com/questions/26034376/clojure-thread-first-macro-and-thread-last-macro
   (is (= (->>
            (range 10)
            (map inc)
            (filter odd?)
-           (into [])) ;[1 3 5 7 9]))
+           (into [])) ;;[1 3 5 7 9]))
          (vec (filter odd? (map inc (range 10))))))
   )
 
 (deftest stm-test
-  ; Software Transactional Memory is the mechanism Clojure uses to handle
-  ; persistent state. There are a few constructs in Clojure that use this.
-
+  "
+  Software Transactional Memory is the mechanism Clojure uses to handle
+  persistent state. There are a few constructs in Clojure that use this.
+  "
   (def my-atom (atom {}))
   (is (= (swap! my-atom assoc :a 1) {:a 1}))
   (is (= (swap! my-atom assoc :b 2) {:a 1 :b 2}))

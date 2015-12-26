@@ -1,6 +1,17 @@
 (ns clojure-learning-test.collection-test
   (:require [clojure.test :refer :all]))
 
+(deftest list-accessor-test
+  (is (= (butlast [1 2]) [1]))
+
+  ; next/rest
+  ; http://stackoverflow.com/questions/4288476/clojure-rest-vs-next
+  (is (= (next '(1)) nil))
+  (is (= (next '(1 2)) '(2)))
+  (is (= (rest '(1)) '()))
+  (is (= (rest '(1 2)) '(2)))
+  )
+
 (deftest list-vec-test
   ; What is difference between Vector and List?
   ; http://stackoverflow.com/questions/1147975/in-clojure-when-should-i-use-a-vector-over-a-list-and-the-other-way-around
@@ -54,6 +65,7 @@
   (def keymap2 {:a {:b 1}})
   (is (= (assoc-in keymap2 [:a :b] 2) {:a {:b 2}}))
   (is (= (assoc-in keymap2 [:a :c] 2) {:a {:b 1, :c 2}}))
+  (is (= (update-in keymap2 [:a :b] #(+ 1 %)) {:a {:b 2}}))
   )
 
 (deftest sets-test
