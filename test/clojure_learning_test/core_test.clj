@@ -15,6 +15,25 @@
   (is (= (even? 0) true))
   )
 
+(deftest binding-test
+  (is (thrown-with-msg?
+        IllegalStateException
+        #"Can't dynamically bind non-dynamic var"
+        (binding [max min] ())))
+
+  (def ^:dynamic x 1)
+  (def ^:dynamic y 2)
+  (binding [x 10]
+    (is (= (+ x y) 12))
+    (set! x 100)
+    (is (= (+ x y) 102))
+    (is (thrown-with-msg?
+          IllegalStateException
+          #"Can't change/establish root binding of"
+          (set! y 100)))
+    )
+  (is (= (+ x y) 3)))
+
 (deftest keyword-test
   (is (= (keyword "abc") :abc))
   (is (= (keyword "abc" "def") :abc/def))
