@@ -1,4 +1,4 @@
-;;; Reader - http://clojure.org/reader#toc2
+;;; Reader - http://clojure.org/reader
 ;;; TODO Special forms - http://clojure.org/special_forms
 (ns clojure-learning-test.syntax-test
   (:require [clojure.test :refer :all]))
@@ -9,6 +9,14 @@
            (> 1 1) "hey"
            (> 2 2) "no"
            :else true) true))
+  )
+
+(deftest metadata-test
+  (is (= (meta ^{:any "hoy"} [1]) {:any "hoy"}))
+  (is (= (meta (with-meta [1] {:any "hoy"})) {:any "hoy"}))
+  (is (= (meta ^String [1]) {:tag java.lang.String}))
+  (is (= (meta ^Long [1]) {:tag java.lang.Long}))
+  (is (= (meta ^:dynamic [1]) {:dynamic true}))
   )
 
 (defn get-if-mod-of-3-5 [n]
