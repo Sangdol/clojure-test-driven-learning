@@ -15,6 +15,26 @@
   (is (= (even? 0) true))
   )
 
+(deftest truthy-falsey-test
+  "only 'false' and 'nil' are falsey"
+  (is "a")
+  (is 0)
+  (is -1)
+  (is true)
+  (is (not nil))
+  (is (not false))
+  )
+
+(deftest contains?-test
+  "Searches indicies or keys"
+  (is (contains? {:a 1 :b 2} :a))
+  (is (contains? "a" 0))
+  (is (not (contains? "a" 1)))
+  (is (contains? [:a] 0))
+  (is (not (contains? [:a] :a)))
+  (is (contains? #{"a" "b" "c"} "a")) ; the members of a set are the keys
+  )
+
 (deftest iterate-test
   (def fiblet (iterate (fn [[a b]] [b (+ a b)]) [1 1]))
   (is (= (take 3 fiblet) '([1 1] [1 2] [2 3])))
