@@ -15,6 +15,12 @@
   (is (= (even? 0) true))
   )
 
+(deftest keyword-test
+  (is (= (keyword "abc") :abc))
+  (is (= (keyword "abc" "def") :abc/def))
+  (is (= (keyword 1) nil)) ; only convert strings
+  )
+
 (deftest truthy-falsey-test
   "only 'false' and 'nil' are falsey"
   (is "a")
