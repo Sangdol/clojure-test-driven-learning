@@ -12,6 +12,20 @@
   (is (= (rest '(1 2)) '(2)))
   )
 
+(deftest seq-test
+  (is (= (seq '(1 2 3)) '(1 2 3)))
+  (is (= (seq "ab") '(\a \b)))
+  (is (= (seq nil) nil))
+  (is (= (seq ()) nil))
+  (is (= (seq "") nil))
+  (is (every? seq ['(1) [2] #{1} {:a 1}])) ; this is the recommended idiom for testing if a collection is not empty
+  (is (= (seq {:a 1 :b 2}) (list [:a 1] [:b 2])))
+
+  (is (seq? ()))
+  (is (not (seq? "ab")))
+  (is (not (seq? nil)))
+  )
+
 (deftest list-vec-test
   ;; What is difference between Vector and List?
   ;; http://stackoverflow.com/questions/1147975/in-clojure-when-should-i-use-a-vector-over-a-list-and-the-other-way-around
