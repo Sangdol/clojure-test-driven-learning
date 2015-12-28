@@ -1,5 +1,10 @@
 (ns clojure-learning-test.string-test
-  (:require [clojure.test :refer :all]))
+  (:require [clojure.test :refer :all]
+            [clojure.string :as s]))
+
+(deftest misc-test
+  (is (= (s/reverse "abc") "cba"))
+  )
 
 (deftest contains-test
   (is (.contains "Abc" "b"))

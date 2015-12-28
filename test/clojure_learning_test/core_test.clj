@@ -82,6 +82,9 @@
   (is (= (reduce conj () [1 2]) [2 1]))
   (is (= (apply conj () [1 2]) [2 1]))
   (is (= (into () [1 2]) [2 1]))
+  
+  (is (= (reverse "abc") (list \c \b \a))) ; Need to use clojure.string/reverse for getting "cba"
+  (is (= (apply str (reverse "abc")) "cba"))
   )
 
 (deftest some-test
