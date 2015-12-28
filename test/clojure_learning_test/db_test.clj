@@ -26,14 +26,14 @@
                        )
                        "))
 
-(defn destory-tables []
+(defn destroy-tables []
   (jdbc/db-do-commands *db* "DROP ALL OBJECTS")
   )
 
 (defn prep-db [test]
   (create-tables)
   (test)
-  (destory-tables))
+  (destroy-tables))
 
 (use-fixtures :once prep-db)
 
