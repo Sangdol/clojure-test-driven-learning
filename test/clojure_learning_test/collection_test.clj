@@ -34,6 +34,13 @@
   (is (= (take 5 (fib 1 1)) [1 1 2 3 5]))
   )
 
+(deftest tree-seq-test
+  (is (= (tree-seq coll? identity [1 [2]]) [[1 [2]] 1 [2] 2]))
+  (is (= (tree-seq coll? seq [1 [2]]) [[1 [2]] 1 [2] 2]))
+  (is (= (tree-seq next rest [1 [2 [3]]]) [[1 [2 [3]]] [2 [3]] [3]]))
+  (is (= (map first (tree-seq next rest [1 [2 [3]]])) [1 2 3]))
+  )
+
 (deftest list-vec-test
   ;; What is difference between Vector and List?
   ;; http://stackoverflow.com/questions/1147975/in-clojure-when-should-i-use-a-vector-over-a-list-and-the-other-way-around
@@ -55,6 +62,26 @@
   (is (= (list* 1 nil) [1]))
   (is (= (list* 1 2 [3]) [1 2 3]))
   (is (= (list* 1 2 '(3)) '(1 2 3)))
+  )
+
+(deftest flatten-test
+  (is (= (flatten [1 [2] [[3] 4]]) [1 2 3 4]))
+  (is (= (flatten nil) []))
+  (is (= (flatten 5) []))
+  (is (= (flatten {:a 1}) []))
+  (is (= (flatten (seq {:a 1 :b 2})) [:a 1 :b 2]))
+
+  ;; http://www.4clojure.com/problem/28#prob-title
+  (defn flatten1 [x]
+    (if (coll? x)
+      (mapcat flatten1 x)
+      [x]))
+
+  (is (= (flatten1 [1 [2] [[3] 4]]) [1 2 3 4]))
+
+  (defn flatten2 [lst]
+    (remove coll? (tree-seq coll? seq lst)))
+  (is (= (flatten1 [1 [2] [[3] 4]]) [1 2 3 4]))
   )
 
 (deftest maps-test
