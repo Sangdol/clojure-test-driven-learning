@@ -19,6 +19,16 @@
   (is (= (meta ^:dynamic [1]) {:dynamic true}))
   )
 
+(deftest dispatch-test
+  "#"
+  (is (= (class #{}) clojure.lang.PersistentHashSet))
+  (is (= (class #"") java.util.regex.Pattern)) ; Compiled at read time
+  (is (= (class #'meta) clojure.lang.Var))
+  (is (= #'meta (var meta)))
+  (is (instance? clojure.lang.IFn  #()))
+  (is true #_ignore-this)
+  )
+
 (defn get-if-mod-of-3-5 [n]
   "https://clojuredocs.org/clojure.core/defn"
   (if (or (= (mod n 3)  0) (= (mod n 5) 0))
@@ -58,7 +68,8 @@
   (is (= (class 1.) Double))
   (is (= (class "") String))
   (is (= (class false) Boolean))
-  (is (= (class nil) nil)))
+  (is (= (class nil) nil))
+  (is (= (class clojure.lang.IFn) java.lang.Class)))
 
 (deftest literal-test
   (is (not= '(+ 1 2) (+ 1 2)))
