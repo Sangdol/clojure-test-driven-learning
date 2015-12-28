@@ -21,7 +21,9 @@
   (is (every? seq ['(1) [2] #{1} {:a 1}])) ; this is the recommended idiom for testing if a collection is not empty
   (is (= (seq {:a 1 :b 2}) (list [:a 1] [:b 2])))
 
-  (is (seq? ()))
+  ;; "Sequences" (seqs) are abstract descriptions of lists of data.
+  (is (seq? '(1 2 3)))
+  (is (not (seq? [1 2 3])))
   (is (not (seq? "ab")))
   (is (not (seq? nil)))
   )
@@ -37,9 +39,6 @@
   (is (coll? [1 2 3]))
   (is (= [1 2] '(1 2)))
 
-  ;; "Sequences" (seqs) are abstract descriptions of lists of data.
-  (is (seq? '(1 2 3)))
-  (is (not (seq? [1 2 3])))
 
   ;; A seq need only provide an entry when it's accessed
   (is (= (range 4) '(0 1 2 3)))
