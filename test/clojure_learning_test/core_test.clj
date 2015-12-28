@@ -66,12 +66,6 @@
   (is (= (take 5 (map first fiblet)) [1 1 2 3 5]))
   )
 
-(deftest lazy-seq-test
-  (defn fib [a b]
-    (lazy-seq (cons a (fib b (+ a b)))))
-  (is (= (take 5 (fib 1 1)) [1 1 2 3 5]))
-  )
-
 (deftest reverse-test
   "
   http://www.4clojure.com/problem/23#prob-title

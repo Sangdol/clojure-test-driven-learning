@@ -28,6 +28,12 @@
   (is (not (seq? nil)))
   )
 
+(deftest lazy-seq-test
+  (defn fib [a b]
+    (lazy-seq (cons a (fib b (+ a b)))))
+  (is (= (take 5 (fib 1 1)) [1 1 2 3 5]))
+  )
+
 (deftest list-vec-test
   ;; What is difference between Vector and List?
   ;; http://stackoverflow.com/questions/1147975/in-clojure-when-should-i-use-a-vector-over-a-list-and-the-other-way-around
