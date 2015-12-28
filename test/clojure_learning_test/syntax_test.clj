@@ -29,6 +29,23 @@
   (is true #_ignore-this)
   )
 
+(deftest quote-and-syntax-quote-test
+  "https://blog.8thlight.com/colin-jones/2012/05/22/quoting-without-confusion.html"
+  (is (= `a 'clojure-learning-test.syntax-test/a))
+  (is (= 'a (quote a)))
+  (is (= `(abc ~(symbol "def") ~'ghi) '(clojure-learning-test.syntax-test/abc def ghi)))
+  (is (= `(max ~@(range 3)) '(clojure.core/max 0 1 2)))
+  (is (= `(let (+ 1 1)) '(clojure.core/let (clojure.core/+ 1 1))))
+  (is (= (count (distinct `(foo# foo#))) 1)) ; output of clojure.core/gensym e.g. foo_1865__auto__. to avoid variable capture problems
+  (is (= `[:a c] [:a 'clojure-learning-test.syntax-test/c]))
+  (is (= `[:a c] `[:a ~`c]))
+  (is (= `{:a '~(+ 1 1)} {:a '(quote 2)}))
+  (is (= `{:a '~@(list 1 2)} {:a '(quote 1 2)}))
+  (is (= `(1 (2 3)) '(1 (2 3))))
+  (is (= `(1 `(2 3)) '(1 (clojure.core/seq (clojure.core/concat (clojure.core/list 2) (clojure.core/list 3))))))
+  (is (= (eval `(list 1 `(2 3))) '(1 (2 3))))
+  )
+
 (defn get-if-mod-of-3-5 [n]
   "https://clojuredocs.org/clojure.core/defn"
   (if (or (= (mod n 3)  0) (= (mod n 5) 0))
@@ -110,6 +127,10 @@
   (def hello2-1 #(str "Hello " %))
   (is (= (hello2-1 "world") "Hello world"))
 
+  ;; #([%]) - syntax error
+  ;; http://stackoverflow.com/questions/4921566/clojure-returning-a-vector-from-an-anonymous-function
+  (is (= (#(vector %1) 1) [1]))
+
   (defn hello3
     ([] "Hello world")
     ([name] (str "Hello " name))
@@ -118,7 +139,7 @@
   (is (= (hello3 "world") "Hello world"))
   (is (= (hello3 "world" 33) "Hello world(33)"))
 
-  ; Pack arguments up in a seq
+  ;; Pack arguments up in a seq
   (defn count-args [& args]
     (str (count args) " args: " args))
   (is (= (count-args 1 2 3) "3 args: (1 2 3)"))
