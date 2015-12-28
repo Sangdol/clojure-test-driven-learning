@@ -9,10 +9,27 @@
 (deftest misc-test
   (is (= (when true 1) 1))
   (is (= (when false 1) nil))
-  (is (= (concat [1 2] '(3 4)) '(1 2 3 4)))
   (is (= (butlast [1 2]) [1]))
-  (is (= (odd? 1) true))
-  (is (= (even? 0) true))
+  (is (= (remove even? [1 2 3 4 5]) [1 3 5]))
+  )
+
+(deftest pred-test
+  (is (odd? 1))
+  (is (even? 0))
+  (is (pos? 1))
+  (is (neg? -1))
+  (is (zero? 0))
+  (is (nil? nil))
+  )
+
+(deftest concat-mapcat-test
+  (is (= (concat [1 2] '(3 4)) '(1 2 3 4)))
+  (is (= (concat [1 2] nil '([1]) #{:a :b}) [1 2 [1] :b :a]))
+  (is (= (concat "ab" "cd") '(\a \b \c \d)))
+
+  ;; mapcat = map and concat
+  (is (= (mapcat reverse [[1 0] [3 2]]) [0 1 2 3]))
+  (is (= (mapcat (fn [n] [n (+ n 1)]) [1 2 3]) [1 2 2 3 3 4]))
   )
 
 (deftest binding-test
@@ -34,10 +51,13 @@
     )
   (is (= (+ x y) 3)))
 
-(deftest keyword-test
+(deftest keyword-and-symbol-test
   (is (= (keyword "abc") :abc))
   (is (= (keyword "abc" "def") :abc/def))
   (is (= (keyword 1) nil)) ; only convert strings
+  
+  (is (= (symbol "abc") 'abc))
+  (is (= (symbol "abc" "def") 'abc/def))
   )
 
 (deftest truthy-falsey-test
