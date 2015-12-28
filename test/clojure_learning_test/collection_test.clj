@@ -2,6 +2,16 @@
   (:require [clojure.test :refer :all]))
 
 (deftest list-accessor-test
+  (is (= (get [1 2] 1) 2))
+  (is (= (get {:a 1 :b 2} :b) 2))
+  (is (= (get {:a 1 :b 2} :z "missing") "missing"))
+  (is (= (get "abc" 0) \a))
+  (is (= (get '(1 2) 0) nil))
+  (is (= (nth '(1 2) 0) 1))
+  (is (= (nth [1 2] 0) 1))
+
+  (is (= (.indexOf [1 2] 1) 0))
+
   (is (= (butlast [1 2]) [1]))
 
   ;; next/rest
