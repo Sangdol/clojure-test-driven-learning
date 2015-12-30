@@ -136,6 +136,9 @@
   (is (= (assoc-in keymap2 [:a :b] 2) {:a {:b 2}}))
   (is (= (assoc-in keymap2 [:a :c] 2) {:a {:b 1, :c 2}}))
   (is (= (update-in keymap2 [:a :b] #(+ 1 %)) {:a {:b 2}}))
+
+  (is (= (select-keys {:a 1 :b 2} [:a]) {:a 1}))
+  (is (= (select-keys [1 2 3] [0 2]) {0 1, 2 3}))
   )
 
 (deftest sets-test
