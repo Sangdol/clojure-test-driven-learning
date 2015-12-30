@@ -35,6 +35,7 @@
   (is (= (seq "ab") '(\a \b)))
   (is (= (seq nil) nil))
   (is (= (seq ()) nil))
+  (is (= (seq []) nil))
   (is (= (seq "") nil))
   (is (every? seq ['(1) [2] #{1} {:a 1}])) ; this is the recommended idiom for testing if a collection is not empty
   (is (= (seq {:a 1 :b 2}) (list [:a 1] [:b 2])))

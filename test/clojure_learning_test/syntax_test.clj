@@ -39,6 +39,10 @@
   (is (= (if 1 2) 2))
   (is (= (if nil 1 2) 2))
   (is (= (when 1 (def x 2) x) 2))
+
+  (let [x [1 2] y []]
+    (is (= (when-let [a (seq x)] (first a)) 1))
+    (is (= (when-let [a (seq y)] (first a)) nil)))
   )
 
 (deftest metadata-test
