@@ -11,6 +11,16 @@
            :else true) true))
   )
 
+(deftest macroexpand-test
+  (is (= (macroexpand '(when 1 2 3)) '(if 1 (do 2 3))))
+  )
+
+(deftest if-when-test
+  (is (= (if 1 2) 2))
+  (is (= (if nil 1 2) 2))
+  (is (= (when 1 (def x 2) x) 2))
+  )
+
 (deftest metadata-test
   (is (= (meta ^{:any "hoy"} [1]) {:any "hoy"}))
   (is (= (meta (with-meta [1] {:any "hoy"})) {:any "hoy"}))
