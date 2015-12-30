@@ -1,3 +1,4 @@
+;; TODO Lazy - http://clojure.org/lazy
 (ns clojure-learning-test.collection-test
   (:require [clojure.test :refer :all]))
 
@@ -13,6 +14,13 @@
   (is (= (.indexOf [1 2] 1) 0))
 
   (is (= (butlast [1 2]) [1]))
+
+  ;; drop/nthnext
+  (is (= (nthnext (range 5) 3) '(3 4)))
+  (is (= (nthnext [0 1 2 3 4] 3) '(3 4)))
+  (is (= (nthnext [] 3) nil))
+  (is (= (drop 3 (range 5)) '(3 4)))
+  (is (= (drop 3 []) ())) ; a lazy sequence
 
   ;; next/rest
   ;; http://stackoverflow.com/questions/4288476/clojure-rest-vs-next
