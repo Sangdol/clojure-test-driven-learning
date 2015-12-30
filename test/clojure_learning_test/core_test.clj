@@ -4,7 +4,8 @@
 ;;; * Docs https://clojuredocs.org/
 
 (ns clojure-learning-test.core-test
-  (:require [clojure.test :refer :all]))
+  (:require [clojure.test :refer :all]
+            [clojure.math.numeric-tower :as math]))
 
 (deftest misc-test
   (is (= (when true 1) 1))
@@ -55,6 +56,10 @@
   (is (= (keyword "abc") :abc))
   (is (= (keyword "abc" "def") :abc/def))
   (is (= (keyword 1) nil)) ; only convert strings
+
+  ;; http://kotka.de/blog/2010/05/Did_you_know_III.html
+  (is (= ::a :clojure-learning-test.core-test/a))
+  (is (= ::math/abs :clojure.math.numeric-tower/abs))
   
   (is (= (symbol "abc") 'abc))
   (is (= (symbol "abc" "def") 'abc/def))
