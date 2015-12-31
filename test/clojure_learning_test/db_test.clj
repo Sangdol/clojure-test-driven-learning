@@ -67,4 +67,8 @@
 
   (def first-user (first users))
   (is (= (:name first-user) "SH"))
-  (is (= (:age first-user) 33)))
+  (is (= (:age first-user) 33))
+
+  (is (= (first (jdbc/query *db* ["SELECT name, age FROM person WHERE name = ?" "SH"]))
+         {:name "SH" :age 33}))
+  )
