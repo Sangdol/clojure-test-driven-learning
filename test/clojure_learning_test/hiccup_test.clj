@@ -1,3 +1,4 @@
+;; TODO hiccup tips - http://www.lispcast.com/hiccup-tips
 (ns clojure-learning-test.hiccup-test
   (:require [hiccup.page :refer :all]
             [clojure.test :refer :all]))
