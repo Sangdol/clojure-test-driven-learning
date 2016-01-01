@@ -131,6 +131,7 @@
   (is (= (get-in {:a {:b 1}} [:a :b]) 1))
   (is (= (get-in {:a {:b 1}} [:a :c]) nil))
   (is (= (get-in {:a {:b 1}} [:a :c] "not found") "not found"))
+  (is (= (get-in {:a {:b {:c 1}}} [:a :c]) nil))
 
   ;; https://clojuredocs.org/clojure.core/assoc-in
   (def keymap2 {:a {:b 1}})
