@@ -6,12 +6,13 @@
 ; clojure.math.numeric-tower
 ; https://github.com/clojure/math.numeric-tower
 (deftest math-test
-         (is (= (math/expt 2 10) 1024))
-         (is (= (math/sqrt 9) 3))
-         (is (= (math/exact-integer-sqrt 5) [2 1]))
-         (is (= (math/abs -1) 1))
-         (is (= (math/gcd 24 18) 6))
-         (is (= (math/lcm 24 18) 72))
-         (is (= (math/floor 1.9) 1.0))
-         (is (= (math/ceil 1.1) 2.0))
-         (is (= (math/round 1.5) 2)))
+         (is (= 1024 (math/expt 2 10)))
+         (is (= 3 (math/sqrt 9)))
+         (is (= [2 1] (math/exact-integer-sqrt 5)))
+         (is (= 1 (math/abs -1)))
+         (is (= 6 (math/gcd 24 18)))
+         (is (= 72 (math/lcm 24 18)))
+         (is (= 1.0 (math/floor 1.9)))
+         (is (= 2.0 (math/ceil 1.1)))
+         (is (= 2 (math/round 1.5)))
+         )

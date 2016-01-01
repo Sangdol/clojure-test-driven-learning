@@ -32,13 +32,13 @@
   )
 
 (deftest macroexpand-test
-  (is (= (macroexpand '(when 1 2 3)) '(if 1 (do 2 3))))
+  (is (= '(if 1 (do 2 3)) (macroexpand '(when 1 2 3))))
   )
 
 (deftest if-when-test
-  (is (= (if 1 2) 2))
-  (is (= (if nil 1 2) 2))
-  (is (= (when 1 (def x 2) x) 2))
+  (is (= 2 (if 1 2)))
+  (is (= 2 (if nil 1 2)))
+  (is (= 2 (when 1 (def x 2) x)))
 
   (let [x [1 2] y []]
     (is (= (when-let [a (seq x)] (first a)) 1))
@@ -46,18 +46,18 @@
   )
 
 (deftest metadata-test
-  (is (= (meta ^{:any "hoy"} [1]) {:any "hoy"}))
-  (is (= (meta (with-meta [1] {:any "hoy"})) {:any "hoy"}))
-  (is (= (meta ^String [1]) {:tag java.lang.String}))
-  (is (= (meta ^Long [1]) {:tag java.lang.Long}))
-  (is (= (meta ^:dynamic [1]) {:dynamic true}))
+  (is (= {:any "hoy"} (meta ^{:any "hoy"} [1])))
+  (is (= {:any "hoy"} (meta (with-meta [1] {:any "hoy"}))))
+  (is (= {:tag java.lang.String} (meta ^String [1])))
+  (is (= {:tag java.lang.Long} (meta ^Long [1])))
+  (is (= {:dynamic true} (meta ^:dynamic [1])))
   )
 
 (deftest dispatch-test
   "#"
-  (is (= (class #{}) clojure.lang.PersistentHashSet))
-  (is (= (class #"") java.util.regex.Pattern)) ; Compiled at read time
-  (is (= (class #'meta) clojure.lang.Var))
+  (is (= clojure.lang.PersistentHashSet (class #{})))
+  (is (= java.util.regex.Pattern (class #""))) ; Compiled at read time
+  (is (= clojure.lang.Var (class #'meta)))
   (is (= #'meta (var meta)))
   (is (instance? clojure.lang.IFn  #()))
   (is true #_ignore-this)
@@ -80,52 +80,28 @@
   (is (= (eval `(list 1 `(2 3))) '(1 (2 3))))
   )
 
-(defn get-if-mod-of-3-5 [n]
-  "https://clojuredocs.org/clojure.core/defn"
-  (if (or (= (mod n 3)  0) (= (mod n 5) 0))
-    n 0))
-
-(deftest get-if-mod-of-3-5-test
-  (is (= (get-if-mod-of-3-5 3) 3))
-  (is (= (get-if-mod-of-3-5 15) 15))
-  (is (= (get-if-mod-of-3-5 2) 0)))
-
-(defn sum-of-mod-of-3-5
-  ([n s]
-   (if (= n 0)
-     s
-     (sum-of-mod-of-3-5 (- n 1)
-                        (+ s (get-if-mod-of-3-5 n)))))
-  ([n]
-   (if (= n 0)
-     0
-     (+ (sum-of-mod-of-3-5 (- n 1)) (get-if-mod-of-3-5 n)))))
-
-(deftest sum-of-mod-of-3-5-test
-  (is (= (sum-of-mod-of-3-5 999 0) 233168))
-  (is (= (sum-of-mod-of-3-5 999) 233168)))
-
 (deftest loop-test
   (is (= (for [x [0 1] :let [y (* x 2)]] y), [0 2]))
   (is (= (for [x [0 1] :let [y (* x 2)] :when (> y 0)] y), [2]))
   (def digits (seq [1 2]))
   (is (= (for [x1 digits x2 digits x3 digits] (* x1 x2 x3))
          [1 2 2 4 2 4 4 8]))
-  (is (= (for [x digits y digits z digits :when (= x y z)] x) [1 2]))
-  (is (= (for [x digits y digits z digits :while (= x y z)] x) [1])))
+  (is (= [1 2] (for [x digits y digits z digits :when (= x y z)] x)))
+  (is (= [1]) (for [x digits y digits z digits :while (= x y z)] x)))
 
 (deftest class-test
-  (is (= (class 1) Long))
-  (is (= (class 1.) Double))
-  (is (= (class "") String))
-  (is (= (class false) Boolean))
-  (is (= (class nil) nil))
-  (is (= (class clojure.lang.IFn) java.lang.Class)))
+  (is (= Long (class 1)))
+  (is (= Double (class 1.)))
+  (is (= String (class "")))
+  (is (= Boolean (class false)))
+  (is (= nil (class nil)))
+  (is (= java.lang.Class (class clojure.lang.IFn)))
+  )
 
 (deftest literal-test
   (is (not= '(+ 1 2) (+ 1 2)))
   (is (= '(+ 1 2) (list '+ 1 2)))
-  (is (= (eval '(+ 1 2)) (+ 1 2)))
+  (is (= (+ 1 2) (eval '(+ 1 2))))
   (is (= (first (first '((1)))) 1))
   (is (= '((1)) [[1]])))
 
@@ -135,7 +111,7 @@
   http://stackoverflow.com/questions/3708516/what-type-is-a-function
   "
   (is (instance? clojure.lang.IFn (fn [] "")))
-  (is (= ((fn [] "Hello world")) "Hello world"))
+  (is (= "Hello world" ((fn [] "Hello world"))))
   (testing "name of fn can be used for internal recursion
       http://stackoverflow.com/questions/10490513/how-to-do-recursion-in-anonymous-fn-without-tail-recursion"
     (is (= ((fn pow [n e]
@@ -147,45 +123,45 @@
   (is (= x 1))
 
   (def hello-world (fn [] "Hello world"))
-  (is (= (hello-world) "Hello world"))
+  (is (= "Hello world" (hello-world)))
 
   (defn hello-world [] "Hello world")
-  (is (= (hello-world) "Hello world"))
+  (is (= "Hello world" (hello-world)))
 
   (defn hello [name] (str "Hello " name))
-  (is (= (hello "world") "Hello world"))
+  (is (= "Hello world" (hello "world")))
 
   (def hello2 #(str "Hello " %1))
-  (is (= (hello2 "world") "Hello world"))
+  (is (= "Hello world" (hello2 "world")))
 
   (def hello2-1 #(str "Hello " %))
-  (is (= (hello2-1 "world") "Hello world"))
+  (is (= "Hello world" (hello2-1 "world")))
 
   ;; #([%]) - syntax error
   ;; http://stackoverflow.com/questions/4921566/clojure-returning-a-vector-from-an-anonymous-function
-  (is (= (#(vector %1) 1) [1]))
+  (is (= [1] (#(vector %1) 1)))
 
   (defn hello3
     ([] "Hello world")
     ([name] (str "Hello " name))
     ([name age] (str "Hello " name "(" age ")")))
-  (is (= (hello3) "Hello world"))
-  (is (= (hello3 "world") "Hello world"))
-  (is (= (hello3 "world" 33) "Hello world(33)"))
+  (is (= "Hello world" (hello3)))
+  (is (= "Hello world" (hello3 "world")))
+  (is (= "Hello world(33)" (hello3 "world" 33)))
 
   ;; Pack arguments up in a seq
   (defn count-args [& args]
     (str (count args) " args: " args))
-  (is (= (count-args 1 2 3) "3 args: (1 2 3)"))
+  (is (= "3 args: (1 2 3)" (count-args 1 2 3)))
 
   (defn hello-count [name & args]
     (str "Hello " name ", args: " args))
-  (is (= (hello-count "SH" 1 2 3) "Hello SH, args: (1 2 3)"))
+  (is (= "Hello SH, args: (1 2 3)" (hello-count "SH" 1 2 3)))
   )
 
 (deftest useful-forms-test
-  (is (= (if false "a" "b") "b"))
-  (is (= (if false "a") nil))
+  (is (= "b" (if false "a" "b")))
+  (is (= nil (if false "a")))
 
   ;; Use let to create temporary bindings
   (is (= (let [a 1 b 2] (> b a))))
@@ -211,7 +187,7 @@
   ;; https://clojuredocs.org/clojure.core/letfn
   (letfn [(add-5 [x]
             (+ x 5))]
-    (is (= (add-5 3) 8)))
+    (is (= 8 (add-5 3))))
 
   ;; Use the threading macros (-> and ->>)
   ;; thread-first
@@ -237,9 +213,9 @@
   persistent state. There are a few constructs in Clojure that use this.
   "
   (def my-atom (atom {}))
-  (is (= (swap! my-atom assoc :a 1) {:a 1}))
-  (is (= (swap! my-atom assoc :b 2) {:a 1 :b 2}))
-  (is (= (class my-atom) clojure.lang.Atom))
+  (is (= {:a 1} (swap! my-atom assoc :a 1)))
+  (is (= {:a 1 :b 2} (swap! my-atom assoc :b 2)))
+  (is (= clojure.lang.Atom (class my-atom)))
   (is (= @my-atom {:a 1 :b 2}))
 
   (def counter (atom 0))

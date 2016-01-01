@@ -3,24 +3,24 @@
             [clojure.string :as s]))
 
 (deftest misc-test
-  (is (= (s/reverse "abc") "cba"))
+  (is (= "cba" (s/reverse "abc")))
   )
 
 (deftest re-finder-test
-  (is (= (re-find #"\d+" "123a") "123"))
+  (is (= "123" (re-find #"\d+" "123a")))
 
   (def matcher (re-matcher #"\d+" "123-456-789"))
-  (is (= (re-find matcher) "123"))
-  (is (= (re-find matcher) "456"))
-  (is (= (re-find matcher) "789"))
+  (is (= "123" (re-find matcher)))
+  (is (= "456" (re-find matcher)))
+  (is (= "789" (re-find matcher)))
 
-  (is (= (re-find #"(\S+)-(\d+)" "abc-1234") ["abc-1234" "abc" "1234"]))
-  (is (= (re-find #"(\d+)" "abc-1234") ["1234" "1234"]))
+  (is (= ["abc-1234" "abc" "1234"] (re-find #"(\S+)-(\d+)" "abc-1234")))
+  (is (= ["1234" "1234"] (re-find #"(\d+)" "abc-1234")))
   )
 
 (deftest contains-test
   (is (.contains "Abc" "b"))
   (is (re-find #"b" "Abc"))
-  (is (= (re-find #"b" "Abc") "b"))
+  (is (= "b" (re-find #"b" "Abc")))
   (is (not (re-find #"d" "Abc")))
   )

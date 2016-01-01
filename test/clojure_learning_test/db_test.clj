@@ -55,19 +55,19 @@
   (jdbc/insert! *db* :person {:name "SH"
                               :age 33}))
 (deftest insert-test
-  (is (= (insert-user) (list {(keyword "scope_identity()") 1})))
-  (is (= (first (insert-user)) {(keyword "scope_identity()") 2}))
+  (is (= (list {(keyword "scope_identity()") 1}) (insert-user)))
+  (is (= {(keyword "scope_identity()") 2} (first (insert-user))))
   )
 
 (deftest select-test
   (insert-user)
 
   (def users (jdbc/query *db* ["SELECT * FROM person"]))
-  (is (= (count users) 1))
+  (is (= 1 (count users)))
 
   (def first-user (first users))
-  (is (= (:name first-user) "SH"))
-  (is (= (:age first-user) 33))
+  (is (= "SH" (:name first-user)))
+  (is (= 33 (:age first-user)))
 
   (is (= (first (jdbc/query *db* ["SELECT name, age FROM person WHERE name = ?" "SH"]))
          {:name "SH" :age 33}))

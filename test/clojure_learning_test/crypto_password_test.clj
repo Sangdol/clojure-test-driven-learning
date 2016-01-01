@@ -24,5 +24,5 @@
 
   ;; length of a bcrypt hashed password?
   ;; http://stackoverflow.com/questions/5881169/what-column-type-length-should-i-use-for-storing-a-bcrypt-hashed-password-in-a-d
-  (is (<= (count encrypted) 60))
+  (is (>= 60 (count encrypted)))
   )

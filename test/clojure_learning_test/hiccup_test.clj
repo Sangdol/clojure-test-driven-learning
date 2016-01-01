@@ -10,12 +10,12 @@
   (nake (html5 args)))
 
 (deftest syntax-test
-  (is (= (parse [:h1 "abc"]) "<h1>abc</h1>"))
-  (is (= (parse [:h2 "test " [:code "code"] " here"]) "<h2>test <code>code</code> here</h2>"))
+  (is (= "<h1>abc</h1>" (parse [:h1 "abc"])))
+  (is (= "<h2>test <code>code</code> here</h2>" (parse [:h2 "test " [:code "code"] " here"])))
   
   ;; Why isn't this working?
-  ;(is (= (parse [:h3 {:style {:color "gray"}} "Add style"]) "<h3 style=\"color:gray\">add style</h3>"))
+  ;(is (= "<h3 style=\"color:gray\">add style</h3>" (parse [:h3 {:style {:color "gray"}} "Add style"])))
   
-  (is (= (parse [:div.cls "Add class"]) "<div class=\"cls\">Add class</div>"))
-  (is (= (parse [:div "Combine " "string " "easily!"]) "<div>Combine string easily!</div>"))
+  (is (= "<div class=\"cls\">Add class</div>" (parse [:div.cls "Add class"])))
+  (is (= "<div>Combine string easily!</div>" (parse [:div "Combine " "string " "easily!"])))
   )

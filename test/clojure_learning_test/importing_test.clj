@@ -8,11 +8,11 @@
 ; Java 8 date
 (deftest java-8-date-test
   (let [ldt (LocalDateTime/of 2015 12 6 23 11)]
-    (is (= (.getDayOfMonth ldt) 6))
-    (is (= (.getHour ldt) 23))
-    (is (>= (.getYear (LocalDateTime/now)) 2015)))
+    (is (= 6 (.getDayOfMonth ldt)))
+    (is (= 23 (.getHour ldt)))
+    (is (>= 2015) (.getYear (LocalDateTime/now))))
   (let [ld (LocalDate/of 2015 12 25)]
-    (is (= (.getYear ld) 2015))))
+    (is (= 2015 (.getYear ld)))))
 
 ;
 ; Modules
@@ -33,13 +33,14 @@
 (deftest using-modules-test
   ; Use "use" to get all functions from the module (outside of functions)
   ; Then we can use set operations
-  (is (= (intersection #{1 2 3} #{2 3 4}) #{2 3}))
-  (is (= (difference #{1 2 3} #{2 3 4}) #{1})) ; not #{1 4}
+  (is (= #{2 3} (intersection #{1 2 3} #{2 3 4})))
+  (is (= #{1} (difference #{1 2 3} #{2 3 4}))) ; not #{1 4}
 
   ; Use '/' call functions from a module
   (is (= (clojure.string/blank? "")))
   ; #"" denotes a regular expression literal
-  (is (= (str/replace "abcd" #"[a-b]" str/upper-case) "ABcd")))
+  (is (= "ABcd" (str/replace "abcd" #"[a-b]" str/upper-case)))
+  )
 
 ;
 ; Java
