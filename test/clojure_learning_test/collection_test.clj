@@ -28,6 +28,12 @@
   (is (= '(2) (next '(1 2))))
   (is (= '() (rest '(1))))
   (is (= '(2) (rest '(1 2))))
+
+  ; pop/peek
+  (is (= 3 (peek [1 2 3])))
+  (is (= [1 2] (pop [1 2 3])))
+  (is (= 1 (peek '(1 2 3))))
+  (is (= '(2 3) (pop '(1 2 3)) ))
   )
 
 (deftest seq-test
