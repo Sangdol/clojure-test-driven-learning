@@ -13,6 +13,12 @@
   (is (= [1] (butlast [1 2])))
   (is (= [1 3 5] (remove even? [1 2 3 4 5])))
   (is (= [1 1 1] (repeat 3 1)))
+  (is (= 10 ((constantly 10) 3)))
+  )
+
+(deftest repeatedly-test
+  (is (= 1 (count (set (repeat 5 (rand-int 1000))))))
+  (is (< 1 (count (set (repeatedly 5 #(rand-int 1000))))))
   )
 
 (deftest interleave-test
@@ -27,6 +33,8 @@
   (is (neg? -1))
   (is (zero? 0))
   (is (nil? nil))
+  (is (complement neg?) 0)
+  (is (complement neg?) 1)
   )
 
 (deftest concat-mapcat-test
