@@ -6,6 +6,11 @@
   (is (= "cba" (s/reverse "abc")))
   )
 
+(deftest re-seq-test
+  (is (= ["A", "B", "C"] (re-seq #"[A-Z]" "AaaBbbCcc")))
+  (is (= ["aaa" "Aaa"] (re-seq #"(?i)[a].." "aaa Aaa bbb")))
+  )
+
 (deftest re-finder-test
   (is (= "123" (re-find #"\d+" "123a")))
 
