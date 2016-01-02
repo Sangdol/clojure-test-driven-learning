@@ -24,6 +24,7 @@
 (deftest interleave-test
   (is (= [1 2 1 2 1 2] (interleave [1 1 1] [2 2 2])))
   (is (= [1 2 3 1 2 3] (interleave [1 1] [2 2] [3 3])))
+  (is (= [1 2 1 2] (interleave [1 1] [2 2 2])))
   )
 
 (deftest pred-test
@@ -45,6 +46,7 @@
   ;; mapcat = map and concat
   (is (= [0 1 2 3] (mapcat reverse [[1 0] [3 2]])))
   (is (= [1 2 2 3 3 4] (mapcat (fn [n] [n (+ n 1)]) [1 2 3])))
+  (is (= [1 2 1 2] (mapcat list [1 1] [2 2])))
   )
 
 (deftest binding-test
@@ -178,8 +180,13 @@
 
 (deftest map-filter-reduce-test
   (is (= '(2 3 4) (map inc '(1 2 3))))
+  (is (= '((1 2) (1 2)) (map list [1 1] [2 2])))
+  (is (= '(6 9) (map + [2 3] [2 3] [2 3])))
+  (is (= '(6 9) (map + [2 3] [2 3] [2 3 3])))
+
   (is (= '(2) (filter even? '(1 2 3))))
   (is (= '(2) (filter even? '[1 2 3])))
+
   (is (= 10 (reduce + '(1 2 3 4))))
   (is (= -8 (reduce - '(1 2 3 4))))
   (is (= [1 2 3] (reduce conj [] '(1 2 3))))
@@ -189,7 +196,8 @@
   (is (= 3 (count [1 2 3])))
   (is (= 3 (count "abc")))
   (is (= 3 (reduce #(and %2 (inc %1)) 0 [1 2 3])))
-  (is (= 3) (reduce (fn [n _] (inc n)) 0 [1 2 3])))
+  (is (= 3) (reduce (fn [n _] (inc n)) 0 [1 2 3]))
+  )
 
 (deftest comp-test
   "
