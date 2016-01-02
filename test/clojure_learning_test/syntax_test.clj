@@ -141,6 +141,8 @@
   ;; http://stackoverflow.com/questions/4921566/clojure-returning-a-vector-from-an-anonymous-function
   (is (= [1] (#(vector %1) 1)))
 
+  (is (= 6 (#(reduce + %&) 1 2 3)))
+
   (defn hello3
     ([] "Hello world")
     ([name] (str "Hello " name))
@@ -188,6 +190,10 @@
   (letfn [(add-5 [x]
             (+ x 5))]
     (is (= 8 (add-5 3))))
+
+  (letfn [(add-3 [x] (+ x 3))]
+    (let [x 1]
+      (is (= 4 (add-3 x)))))
 
   ;; Use the threading macros (-> and ->>)
   ;; thread-first
