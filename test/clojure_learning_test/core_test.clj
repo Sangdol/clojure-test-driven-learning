@@ -12,6 +12,12 @@
   (is (= nil (when false 1)))
   (is (= [1] (butlast [1 2])))
   (is (= [1 3 5] (remove even? [1 2 3 4 5])))
+  (is (= [1 1 1] (repeat 3 1)))
+  )
+
+(deftest interleave-test
+  (is (= [1 2 1 2 1 2] (interleave [1 1 1] [2 2 2])))
+  (is (= [1 2 3 1 2 3] (interleave [1 1] [2 2] [3 3])))
   )
 
 (deftest pred-test
@@ -87,6 +93,9 @@
   )
 
 (deftest iterate-test
+  (is (= [0 1 2] (take 3 (iterate inc 0))))
+  (is (= [1 1 1] (take 3 (iterate identity 1))))
+
   (def fiblet (iterate (fn [[a b]] [b (+ a b)]) [1 1]))
   (is (= '([1 1] [1 2] [2 3]) (take 3 fiblet)))
   (is (= [1 1 2 3 5] (take 5 (map first fiblet))))
