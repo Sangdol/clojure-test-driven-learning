@@ -16,6 +16,18 @@
   (is (= 10 ((constantly 10) 3)))
   )
 
+(deftest partition-test
+  (is (= '((0 1) (2 3)) (partition 2 (range 4))))
+  (is (= '((0 1)) (partition 2 (range 3))))
+  (is (= '((0 1) (3 4)) (partition 2 3 (range 6))))
+  (is (= '((0 1 2)) (partition 3 3 (range 4))))
+  (is (= '((0 1 2) (3)) (partition 3 3 [] (range 4))))
+  (is (= '((0 1 2) (3 10)) (partition 3 3 [10] (range 4))))
+  
+  (is (= '((0 1) (2)) (partition-all 2 (range 3))))
+  (is (= '((0 1) (3)) (partition-all 2 3 (range 4))))
+  )
+
 (deftest repeatedly-test
   (is (= 1 (count (set (repeat 5 (rand-int 1000))))))
   (is (< 1 (count (set (repeatedly 5 #(rand-int 1000))))))
@@ -25,6 +37,11 @@
   (is (= [1 2 1 2 1 2] (interleave [1 1 1] [2 2 2])))
   (is (= [1 2 3 1 2 3] (interleave [1 1] [2 2] [3 3])))
   (is (= [1 2 1 2] (interleave [1 1] [2 2 2])))
+  )
+
+(deftest interpose-test
+  (is (= [1 0 2 0 3] (interpose 0 [1 2 3])))
+  (is (= "1, 2, 3" (apply str (interpose ", " ["1", "2", "3"]))))
   )
 
 (deftest pred-test
