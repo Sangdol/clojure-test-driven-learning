@@ -14,6 +14,9 @@
   (is (= 0 (.indexOf [1 2] 1)))
 
   (is (= [1] (butlast [1 2])))
+  (is (= [1 2 3] (drop-last [1 2 3 4])))
+  (is (= [1 2] (drop-last 2 [1 2 3 4])))
+  (is (= [] (drop-last 4 [1 2 3 4])))
 
   ;; drop/nthnext
   (is (= '(3 4) (nthnext (range 5) 3)))
