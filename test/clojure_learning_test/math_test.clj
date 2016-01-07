@@ -2,6 +2,14 @@
   (:require [clojure.test :refer :all]
             [clojure.math.numeric-tower :as math]))
 
+(deftest core-math-test
+  (is (= 3 (quot 15 5)))
+  (is (= 3 (quot 15 4)))
+  (is (= -3 (quot -15 4)))
+
+  (is (= -15/4 (/ -15 4)))
+  )
+
 ; Math
 ; clojure.math.numeric-tower
 ; https://github.com/clojure/math.numeric-tower
