@@ -180,8 +180,6 @@
   (is (= '(1 2)) (next (cons 3 '(1 2)))))
 
 (deftest partial-test
-  ;; partial
-  ;; https://clojuredocs.org/clojure.core/partial
   (def hundred-times (partial * 100))
   (is (= 300 (hundred-times 3)))
   (is (= 600 (hundred-times 3 2)))
@@ -217,9 +215,6 @@
   )
 
 (deftest comp-test
-  "
-  https://clojuredocs.org/clojure.core/comp
-  "
   (let [muliply-and-minus (comp - *)
         countif (comp count filter)]
     (is (= -6 (muliply-and-minus 2 3)))
@@ -227,9 +222,6 @@
   )
 
 (deftest apply-test
-  "
-  https://clojuredocs.org/clojure.core/apply
-  "
   (let [li ["a" "b" "c"]]
     (is (= "[\"a\" \"b\" \"c\"]" (str li)))
     (is (= "abc") (apply str li)))

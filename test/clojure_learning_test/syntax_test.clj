@@ -185,8 +185,6 @@
     (is (= name "SH"))
     (is (not (= name "HJ"))))
 
-  ;; letfn
-  ;; https://clojuredocs.org/clojure.core/letfn
   (letfn [(add-5 [x]
             (+ x 5))]
     (is (= 8 (add-5 3))))

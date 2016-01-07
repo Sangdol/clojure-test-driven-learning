@@ -144,7 +144,6 @@
 
   (is (= nil (get-in {:a {:b {:c 1}}} [:a :c])))
 
-  ;; https://clojuredocs.org/clojure.core/assoc-in
   (def keymap2 {:a {:b 1}})
   (is (= {:a {:b 2}} (assoc-in keymap2 [:a :b] 2)))
   (is (= {:a {:b 1, :c 2}} (assoc-in keymap2 [:a :c] 2)))
