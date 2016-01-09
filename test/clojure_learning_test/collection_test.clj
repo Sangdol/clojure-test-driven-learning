@@ -37,6 +37,13 @@
   (is (= [1 2] (pop [1 2 3])))
   (is (= 1 (peek '(1 2 3))))
   (is (= '(2 3) (pop '(1 2 3)) ))
+  
+  (is (= [1 2] ((juxt :a :b) {:a 1 :b 2 :c 3})))
+  (is (= [:keyword "keyword"] ((juxt identity name) :keyword)))
+  (is (= [13 72 3 6] ((juxt + * min max) 3 4 6)))
+
+  (is (= [3 4] (subvec [1 2 3 4] 2)))
+  (is (= [3] (subvec [1 2 3 4] 2 3)))
   )
 
 (deftest seq-test
