@@ -51,6 +51,7 @@
   (is (neg? -1))
   (is (zero? 0))
   (is (nil? nil))
+  (is (some? 1)) ; for not-nil?
   (is (complement neg?) 0)
   (is (complement neg?) 1)
   )
@@ -218,7 +219,7 @@
   (let [muliply-and-minus (comp - *)
         countif (comp count filter)]
     (is (= -6 (muliply-and-minus 2 3)))
-    (is (= 1) (countif even? [1 2 3])))
+    (is (= 1 (countif even? [1 2 3]))))
   )
 
 (deftest apply-test
