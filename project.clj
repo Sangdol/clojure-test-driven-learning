@@ -5,6 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.bovinegenius/exploding-fish "0.3.4"]
+                 [compojure "1.4.0"]
                  [crypto-password "0.1.3"]
                  [hiccup "1.0.5"]
                  [hikari-cp "1.4.0"]
@@ -13,4 +14,6 @@
                  [org.clojure/math.numeric-tower "0.0.4"]]
   :main ^:skip-aot clojure-learning-test.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
+                                  [ring/ring-mock "0.3.0"]]}})
+
