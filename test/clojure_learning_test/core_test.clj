@@ -17,6 +17,13 @@
   (is (= [[1 2] [3 4 5]] (split-at 2 [1 2 3 4 5])))
   )
 
+(deftest var-test
+  "The symbol must resolve to a var, and the Var object itself is returned."
+  (is (= #'clojure.core/defn #'defn))
+  (is (= #'clojure.core/defn (var defn)))
+  (is (= #'clojure.core/+ (var +)))
+  )
+
 (deftest partition-test
   (is (= '((0 1) (2 3)) (partition 2 (range 4))))
   (is (= '((0 1)) (partition 2 (range 3))))
