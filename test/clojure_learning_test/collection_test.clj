@@ -137,6 +137,7 @@
   (is (= '(1 2) (vals {:a 1 :b 2})))
   (is (= 1 (first (vals {:a 1 :b 2}))))
 
+  (is (= {:b 1} (get-in {:a {:b 1}} [:a])))
   (is (= 1 (get-in {:a {:b 1}} [:a :b])))
   (is (= nil (get-in {:a {:b 1}} [:a :c])))
   (is (= "not found" (get-in {:a {:b 1}} [:a :c] "not found")))
