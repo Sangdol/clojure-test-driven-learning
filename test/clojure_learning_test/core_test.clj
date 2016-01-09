@@ -14,6 +14,7 @@
   (is (= [1 3 5] (remove even? [1 2 3 4 5])))
   (is (= [1 1 1] (repeat 3 1)))
   (is (= 10 ((constantly 10) 3)))
+  (is (= [[1 2] [3 4 5]] (split-at 2 [1 2 3 4 5])))
   )
 
 (deftest partition-test
