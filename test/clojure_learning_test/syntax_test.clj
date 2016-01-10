@@ -51,6 +51,11 @@
   (is (= {:tag java.lang.String} (meta ^String [1])))
   (is (= {:tag java.lang.Long} (meta ^Long [1])))
   (is (= {:dynamic true} (meta ^:dynamic [1])))
+
+  (let [wm (with-meta [] {:a 10})]
+    (is (= {:a 10} (meta wm)))
+    (is (= {:a 10 :b 20} (meta (vary-meta wm assoc :b 20))))
+    (is (= {:a 11 :c 1} (meta (vary-meta wm merge {:a 11 :c 1})))))
   )
 
 (deftest dispatch-test
