@@ -1,6 +1,16 @@
 (ns clojure-learning-test.test-test
   (:require [clojure.test :refer :all]))
 
+(deftest mocking-test
+  (defn f [] false)
+  (with-redefs-fn {#'f (fn [] true)}
+    #(is (= true (f))))
+
+  ;; Why mocking a core function is not working?
+  (with-redefs-fn {#'+ (fn [] 1)}
+    #(is (= 2 (+ 1 1))))
+  )
+
 (deftest assertions
   (is (= 4 (+ 2 2)))
   (is (instance? Long 2) "This is Long")
@@ -45,3 +55,4 @@
   (is (or true false))
   (is (= (or nil false 1) 1))
   (is (= (or nil 0 1) 0)))
+
