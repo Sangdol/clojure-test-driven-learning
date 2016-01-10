@@ -128,18 +128,17 @@
   (is (= clojure.lang.Keyword (class :a)))
 
   ;; Commas are treated as whiltespace and do nothing
-  (def stringmap {"a" 1, "b" 2, "c" 3})
-  (is (= clojure.lang.PersistentArrayMap (class stringmap)))
-  (is (= 1 (stringmap "a")))
-  (is (= nil (stringmap "d")))
+  (let [stringmap {"a" 1, "b" 2, "c" 3}]
+    (is (= clojure.lang.PersistentArrayMap (class stringmap)))
+    (is (= 1 (stringmap "a")))
+    (is (= nil (stringmap "d"))))
 
-  (def keymap {:a 1 :b 2 :c 3})
-  (is (= 1 (keymap :a)))
-  (is (= 1 (:a keymap)))
-
-  (def newkeymap (assoc keymap :d 4))
-  (is (= newkeymap {:a 1 :b 2 :c 3 :d 4}))
-  (is (= {:a 1 :b 2} (dissoc newkeymap :c :d)))
+  (let [keymap {:a 1 :b 2 :c 3}]
+    (is (= 1 (keymap :a)))
+    (is (= 1 (:a keymap)))
+    (let [newkeymap (assoc keymap :d 4)]
+      (is (= newkeymap {:a 1 :b 2 :c 3 :d 4}))
+      (is (= {:a 1 :b 2} (dissoc newkeymap :c :d)))))
 
   (is (= '(1 2) (vals {:a 1 :b 2})))
   (is (= 1 (first (vals {:a 1 :b 2}))))
@@ -152,10 +151,10 @@
 
   (is (= nil (get-in {:a {:b {:c 1}}} [:a :c])))
 
-  (def keymap2 {:a {:b 1}})
-  (is (= {:a {:b 2}} (assoc-in keymap2 [:a :b] 2)))
-  (is (= {:a {:b 1, :c 2}} (assoc-in keymap2 [:a :c] 2)))
-  (is (= {:a {:b 2}} (update-in keymap2 [:a :b] #(+ 1 %))))
+  (let [keymap {:a {:b 1}}]
+    (is (= {:a {:b 2}} (assoc-in keymap [:a :b] 2)))
+    (is (= {:a {:b 1, :c 2}} (assoc-in keymap [:a :c] 2)))
+    (is (= {:a {:b 2}} (update-in keymap [:a :b] #(+ 1 %)))))
 
   (is (= {:a 1} (select-keys {:a 1 :b 2} [:a])))
   (is (= {0 1, 2 3} (select-keys [1 2 3] [0 2])))
