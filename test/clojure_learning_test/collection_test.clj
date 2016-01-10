@@ -158,6 +158,9 @@
 
   (is (= {:a 1} (select-keys {:a 1 :b 2} [:a])))
   (is (= {0 1, 2 3} (select-keys [1 2 3] [0 2])))
+
+  (is (= {:a 1 :b 2 :c 3} (merge {:a 1 :b 2} {:c 3})))
+  (is (= {:a 1 :b 3} (merge {:a 1 :b 2} {:b 3})))
   )
 
 (deftest sets-test
