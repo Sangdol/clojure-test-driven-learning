@@ -46,6 +46,11 @@
   (is (= [3] (subvec [1 2 3 4] 2 3)))
   )
 
+(deftest group-by-test
+  (is (= {true [0 2 4] false [1 3]} (group-by even? [0 1 2 3 4])))
+  (is (= {1 [[1]], 2 [[2 2]]} (group-by count [[1] [2 2]])))
+  )
+
 (deftest seq-test
   (is (= '(1 2 3) (seq '(1 2 3))))
   (is (= '(\a \b) (seq "ab")))
