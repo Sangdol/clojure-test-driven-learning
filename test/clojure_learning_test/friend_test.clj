@@ -16,12 +16,12 @@
            (GET "/" req
              (let [u (user req)]
                (if u
-                 (str "Hello " (:name u))
+                 (str "Hello " (:username u))
                  (str "Hi there")))))
 
 (defn login [req]
   (let [cred-fn (get-in req [::friend/auth-config :credential-fn])]
-    (make-auth (cred-fn (select-keys (:params req) [:name :password])))))
+    (make-auth (cred-fn (select-keys (:params req) [:username :password])))))
 
 (defn password-workflow [req]
   (when (and (= (:request-method req) :post)
@@ -29,8 +29,10 @@
     (login req)))
 
 (defn get-user [name]
-  ({"sd" {:name "sd"
-          :password (creds/hash-bcrypt "passwd")}}
+  ({"sd" {:username "sd"
+          :password (creds/hash-bcrypt "password")}
+    "sd2" {:username "sd2"
+           :password (creds/hash-bcrypt "password2")}}
     name))
 
 (defn password-cred-fn [{:keys [name password]}]
@@ -46,12 +48,13 @@
       (wrap-params)
       (wrap-session)))
 
-;; TODO redirect to custom / login failed / session / keep login
 (deftest login-test
+  (is (= "sd" (:username (get-user "sd"))))
+
   (let [res (app (request :get "/"))]
     (is (= "Hi there" (:body res))))
 
-  (let [res (app (request :post "/login" {:name "sd" :password "passwd"}))]
+  (let [res (app (request :post "/login" {:username "sd" :password "password"}))]
     (is (= 303 (:status res)))
     (is (= "/" (get-in res [:headers "Location"]))))
   )
