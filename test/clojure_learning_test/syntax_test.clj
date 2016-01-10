@@ -166,6 +166,26 @@
   (is (= "Hello SH, args: (1 2 3)" (hello-count "SH" 1 2 3)))
   )
 
+(deftest let-test
+  (let [name "SH"]
+    (is (= name "SH"))
+    (is (not (= name "HJ"))))
+
+  (defn f []
+    (let [a "a"]
+      {:a a}))
+
+  (is (= {:a "a"} (f)))
+
+  (letfn [(add-5 [x]
+            (+ x 5))]
+    (is (= 8 (add-5 3))))
+
+  (letfn [(add-3 [x] (+ x 3))]
+    (let [x 1]
+      (is (= 4 (add-3 x)))))
+  )
+
 (deftest useful-forms-test
   (is (= "b" (if false "a" "b")))
   (is (= nil (if false "a")))
@@ -184,19 +204,6 @@
     (def n "SH")
     (is (= name n)))
   (test-impl-do "SH")
-
-  ;; So does let
-  (let [name "SH"]
-    (is (= name "SH"))
-    (is (not (= name "HJ"))))
-
-  (letfn [(add-5 [x]
-            (+ x 5))]
-    (is (= 8 (add-5 3))))
-
-  (letfn [(add-3 [x] (+ x 3))]
-    (let [x 1]
-      (is (= 4 (add-3 x)))))
 
   ;; Use the threading macros (-> and ->>)
   ;; thread-first
