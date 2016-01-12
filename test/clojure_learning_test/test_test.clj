@@ -2,9 +2,13 @@
   (:require [clojure.test :refer :all]))
 
 (deftest mocking-test
-  (defn f [] false)
-  (with-redefs-fn {#'f (fn [] true)}
-    #(is (= true (f))))
+  (defn add-5 [n] (+ n 5))
+  (with-redefs-fn {#'add-5 (fn [n] (+ n 50))}
+    #(is (= 60 (add-5 10))))
+
+  (def partial-add-5 (partial add-5))
+  (with-redefs-fn {#'add-5 (fn [n] (+ n 50))}
+    #(is (= 15 (partial-add-5 10)))) ; cannot redefine the reference in the partial function
 
   ;; Why mocking a core function is not working?
   (with-redefs-fn {#'+ (fn [] 1)}
