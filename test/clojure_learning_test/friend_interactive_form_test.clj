@@ -44,9 +44,18 @@
 ;;  :login-failure-handler #object[clojure_learning_test.friend_interactive_form_test$login_failure_redirect 0x4dc4f05 "clojure_learning_test.friend_interactive_form_test$login_failure_redirect@4dc4f05"]},
 ;; :request-method :post,
 ;; :session {}}
+
 (defn login-failure-redirect [req]
   ;(pprint req)
   (response/redirect "/login-failed"))
+
+;; Mock this method for testing
+;; Redirecting to /login-failed by default.
+(defn login-failure-mock []
+  (response/redirect "/login-failed"))
+
+(defn login-failure-method [req]
+  (login-failure-mock))
 
 (def app
   (wrap-defaults
@@ -54,7 +63,7 @@
       ft/app-routes
       {:credential-fn (partial creds/bcrypt-credential-fn ft/get-user)
        :workflows [(workflows/interactive-form
-                     :login-failure-handler login-failure-redirect)]})
+                     :login-failure-handler login-failure-method)]})
     (-> site-defaults
         (assoc-in [:security :anti-forgery] false)
         (assoc-in [:responses :absolute-redirects] false))))
@@ -75,4 +84,11 @@
     ;; without custom login failure handler
     ;(is (= "http://localhost/login?&login_failed=Y&username=sd2" (get-in res [:headers "Location"])))
     )
+
+  ;; Need to set the Content-Type header in practice.
+  (with-redefs-fn {#'login-failure-mock
+                   (fn [] {:status 200 :headers {} :body "Login Failed"})}
+    #(let [res (app (request :post "/login" {:username "sd2" :password "wrong"}))]
+      (is (= 200 (:status res)))
+      (is (= "Login Failed" (:body res)))))
   )
