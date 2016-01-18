@@ -10,6 +10,8 @@
   (is (= nil (get '(1 2) 0)))
   (is (= 1 (nth '(1 2) 0)))
   (is (= 1 (nth [1 2] 0)))
+  (is (= 1 (last [1])))
+  (is (nil? (last [])))
 
   (is (= 0 (.indexOf [1 2] 1)))
 
@@ -37,13 +39,18 @@
   (is (= [1 2] (pop [1 2 3])))
   (is (= 1 (peek '(1 2 3))))
   (is (= '(2 3) (pop '(1 2 3)) ))
-  
   (is (= [1 2] ((juxt :a :b) {:a 1 :b 2 :c 3})))
   (is (= [:keyword "keyword"] ((juxt identity name) :keyword)))
   (is (= [13 72 3 6] ((juxt + * min max) 3 4 6)))
 
   (is (= [3 4] (subvec [1 2 3 4] 2)))
   (is (= [3] (subvec [1 2 3 4] 2 3)))
+  )
+
+(deftest sort-test
+  (is (= [1 2 3] (sort [3 2 1])))
+  (is (= [3 2 1] (sort > [3 2 1])))
+  (is (= '([1 2 3] [1 2] [1]) (sort-by count > '([1] [1 2] [1 2 3]))))
   )
 
 (deftest group-by-test
