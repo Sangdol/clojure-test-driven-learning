@@ -221,6 +221,10 @@
            (filter odd?)
            (into [])) ;;[1 3 5 7 9]))
          (vec (filter odd? (map inc (range 10))))))
+
+  (is (= (->>
+           (range 10)
+           (reduce + 0)) 45))
   )
 
 (deftest stm-test
