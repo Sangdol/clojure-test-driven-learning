@@ -210,6 +210,8 @@
 
   (is (= '(2) (filter even? '(1 2 3))))
   (is (= '(2) (filter even? '[1 2 3])))
+  (is (= [[2 3]] (filter #(> (count %) 1) '[[1] [2 3]])))
+  (is (= [] (filter #(> (count %) 1) [[7] [6] [5] [4]])))
 
   (is (= 10 (reduce + '(1 2 3 4))))
   (is (= -8 (reduce - '(1 2 3 4))))
