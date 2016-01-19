@@ -28,6 +28,7 @@
   (is (= '((0 1) (2 3)) (partition 2 (range 4))))
   (is (= '((0 1)) (partition 2 (range 3))))
   (is (= '((0 1) (3 4)) (partition 2 3 (range 6))))
+  (is (= '((0 1) (1 2) (2 3) (3 4) (4 5)) (partition 2 1 (range 6))))
   (is (= '((0 1 2)) (partition 3 3 (range 4))))
   (is (= '((0 1 2) (3)) (partition 3 3 [] (range 4))))
   (is (= '((0 1 2) (3 10)) (partition 3 3 [10] (range 4))))
