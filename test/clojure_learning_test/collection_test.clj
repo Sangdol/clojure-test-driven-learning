@@ -51,6 +51,7 @@
   (is (= [1 2 3] (sort [3 2 1])))
   (is (= [3 2 1] (sort > [3 2 1])))
   (is (= '([1 2 3] [1 2] [1]) (sort-by count > '([1] [1 2] [1 2 3]))))
+  (is (= #{1 2 3} (sorted-set 3 2 1)))
   )
 
 (deftest group-by-test
