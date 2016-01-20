@@ -40,3 +40,9 @@
     (is (= 303 (:status res)))
     )
   )
+
+(deftest response-test
+  (is (= {:status 200 :headers {} :body "Hi"} (response/response "Hi")))
+  (is (= {:status 200 :headers {"Content-Type" "text/html; charset=utf-8"} :body "Hi"}
+         (response/content-type (response/response "Hi") "text/html; charset=utf-8")))
+  )
