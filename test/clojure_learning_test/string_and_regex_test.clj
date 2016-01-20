@@ -25,6 +25,8 @@
 
 (deftest contains-test
   (is (.contains "Abc" "b"))
+  (is (s/includes? "abc" "bc"))
+  (is (not (s/includes? "abc" "cd")))
   (is (re-find #"b" "Abc"))
   (is (= "b" (re-find #"b" "Abc")))
   (is (not (re-find #"d" "Abc")))
