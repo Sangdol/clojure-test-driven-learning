@@ -213,6 +213,10 @@
            (dissoc :b))
          (dissoc (assoc {:a 1 :b 2} :c 3) :b)))
 
+  (is (= (->
+           10
+           -) -10))
+
   ;; thread-last
   ;; http://stackoverflow.com/questions/26034376/clojure-thread-first-macro-and-thread-last-macro
   (is (= (->>
@@ -225,6 +229,10 @@
   (is (= (->>
            (range 10)
            (reduce + 0)) 45))
+
+  (is (= (->>
+           10
+           -) -10))
   )
 
 (deftest stm-test
