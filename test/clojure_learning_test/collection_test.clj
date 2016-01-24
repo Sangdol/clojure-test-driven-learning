@@ -46,6 +46,7 @@
 
   (is (= [3 4] (subvec [1 2 3 4] 2)))
   (is (= [3] (subvec [1 2 3 4] 2 3)))
+  ; (is (= [3] (subvec '(1 2 3 4) 2 3))) ;; subvec cannot take list
   )
 
 (deftest sort-test
