@@ -45,8 +45,15 @@
   (is (= 2 (when 1 (def x 2) x)))
 
   (let [x [1 2] y []]
-    (is (= (when-let [a (seq x)] (first a)) 1))
-    (is (= (when-let [a (seq y)] (first a)) nil)))
+    (is (= 1 (if-let [a (seq x)] (first a) "else")))
+    (is (= "else" (if-let [a (seq y)] (first a) "else")))
+    )
+
+  (let [x [1 2] y []]
+    (is (= 1 (when-let [a (seq x)] (first a))))
+    (is (= nil (when-let [a (seq y)] (first a))))
+    ;(is (= 1 (when-let [a (seq x) b (seq y)] (cons a b)))) ;; cannot bind more than 1 in when-let
+    )
   )
 
 (deftest metadata-test
