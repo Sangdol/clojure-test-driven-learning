@@ -176,6 +176,10 @@
 
   (is (= {:a 1 :b 2 :c 3} (merge {:a 1 :b 2} {:c 3})))
   (is (= {:a 1 :b 3} (merge {:a 1 :b 2} {:b 3})))
+
+  (let [map {:a 1}]
+    (is (= [:a 1]
+      (reduce #(vec [(first %2) (second %2)]) [] map))))
   )
 
 (deftest sets-test
