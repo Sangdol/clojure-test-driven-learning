@@ -15,6 +15,7 @@
   (is (= [1 1 1] (repeat 3 1)))
   (is (= 10 ((constantly 10) 3)))
   (is (= [[1 2] [3 4 5]] (split-at 2 [1 2 3 4 5])))
+  (is (= {'a 3 'b 1} (frequencies ['a 'a 'a 'b])))
   )
 
 (deftest var-test
