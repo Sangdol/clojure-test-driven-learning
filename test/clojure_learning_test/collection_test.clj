@@ -169,7 +169,8 @@
   (let [keymap {:a {:b 1}}]
     (is (= {:a {:b 2}} (assoc-in keymap [:a :b] 2)))
     (is (= {:a {:b 1, :c 2}} (assoc-in keymap [:a :c] 2)))
-    (is (= {:a {:b 2}} (update-in keymap [:a :b] #(+ 1 %)))))
+    (is (= {:a {:b 2}} (update-in keymap [:a :b] inc)))
+    (is (= {:a {:b 1} :c 1} (update-in keymap [:c] (fnil inc 0)))))
 
   (is (= {:a 1} (select-keys {:a 1 :b 2} [:a])))
   (is (= {0 1, 2 3} (select-keys [1 2 3] [0 2])))

@@ -18,6 +18,13 @@
   (is (= {'a 3 'b 1} (frequencies ['a 'a 'a 'b])))
   )
 
+(deftest fnil-test
+  (letfn [(hello [h w] (str h " " w))]
+    (let [hello-world (fnil hello "Hello" "world")]
+      (is (= "Hello world" (hello-world nil nil)))
+      (is (= "Hi world" (hello-world "Hi" nil)))
+      (is (= "Hello earth" (hello-world nil "earth"))))))
+
 (deftest var-test
   "The symbol must resolve to a var, and the Var object itself is returned."
   (is (= #'clojure.core/defn #'defn))
