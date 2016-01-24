@@ -29,6 +29,10 @@
   (let [m {::a 1, ::b 2} ; auto-resolved keyword - what is that? http://stackoverflow.com/questions/2481984/when-should-clojure-keywords-be-in-namespaces
         {:keys [::a ::b]} m]
     (is (= [a b] [1 2])))
+
+  (letfn [(keysfn [{:keys [name pw]}]
+            (str name " "pw))]
+    (is (= "name pw" (keysfn {:name "name" :pw "pw"}))))
   )
 
 (deftest macroexpand-test
