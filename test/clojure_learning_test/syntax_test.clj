@@ -97,13 +97,13 @@
   )
 
 (deftest loop-test
-  (is (= (for [x [0 1] :let [y (* x 2)]] y), [0 2]))
-  (is (= (for [x [0 1] :let [y (* x 2)] :when (> y 0)] y), [2]))
+  (is (= [0 2] (for [x [0 1] :let [y (* x 2)]] y)))
+  (is (= [2] (for [x [0 1] :let [y (* x 2)] :when (> y 0)] y)))
   (def digits (seq [1 2]))
-  (is (= (for [x1 digits x2 digits x3 digits] (* x1 x2 x3))
-         [1 2 2 4 2 4 4 8]))
+  (is (= [1 2 2 4 2 4 4 8]
+         (for [x1 digits x2 digits x3 digits] (* x1 x2 x3))))
   (is (= [1 2] (for [x digits y digits z digits :when (= x y z)] x)))
-  (is (= [1]) (for [x digits y digits z digits :while (= x y z)] x)))
+  (is (= [1] (for [x digits y digits z digits :while (= x y z)] x))))
 
 (deftest class-test
   (is (= Long (class 1)))
