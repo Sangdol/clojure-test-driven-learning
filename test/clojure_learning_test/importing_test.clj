@@ -3,7 +3,8 @@
   ; Using asterisk(*) is not possible
   ; http://stackoverflow.com/questions/1990714/does-clojure-have-an-equivalent-of-javas-import-package
   (:import java.time.LocalDateTime
-    java.time.LocalDate))
+           java.time.LocalDate
+           (java.util GregorianCalendar)))
 
 ; Java 8 date
 (deftest java-8-date-test
@@ -37,7 +38,7 @@
   (is (= #{1} (difference #{1 2 3} #{2 3 4}))) ; not #{1 4}
 
   ; Use '/' call functions from a module
-  (is (= (clojure.string/blank? "")))
+  (is (clojure.string/blank? ""))
   ; #"" denotes a regular expression literal
   (is (= "ABcd" (str/replace "abcd" #"[a-b]" str/upper-case)))
   )
@@ -51,14 +52,9 @@
 (import java.util.Calendar)
 
 (deftest using-java-test
-  (is (= (instance? Date (Date.))))
+  (is (instance? Date (Date.)))
   (is (> (. (Date.) getTime) 0))
   (is (> (.getTime (Date.)) 0))
-
-  ; doto for mutable classes
-  (is (= (instance? Date (doto (Calendar/getInstance)
-                           (.set 2000 1 1 0 0 0)
-                           .getTime))))
 
   (is (> (.getTime
            (.getTime

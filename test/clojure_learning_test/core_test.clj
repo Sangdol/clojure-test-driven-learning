@@ -195,7 +195,8 @@
   (is (thrown? IllegalArgumentException (cons 1 2 3 '(4 5 6))))
   (is (= clojure.lang.Cons (class (cons 3 '(1 2)))))
   (is (= clojure.lang.PersistentList (class (next (cons 3 '(1 2))))))
-  (is (= '(1 2)) (next (cons 3 '(1 2)))))
+  (is (= '(1 2) (next (cons 3 '(1 2)))))
+  )
 
 (deftest partial-test
   (def hundred-times (partial * 100))
@@ -231,7 +232,7 @@
   (is (= 3 (count [1 2 3])))
   (is (= 3 (count "abc")))
   (is (= 3 (reduce #(and %2 (inc %1)) 0 [1 2 3])))
-  (is (= 3) (reduce (fn [n _] (inc n)) 0 [1 2 3]))
+  (is (= 3 (reduce (fn [n _] (inc n)) 0 [1 2 3])))
   )
 
 (deftest comp-test
@@ -244,7 +245,7 @@
 (deftest apply-test
   (let [li ["a" "b" "c"]]
     (is (= "[\"a\" \"b\" \"c\"]" (str li)))
-    (is (= "abc") (apply str li)))
+    (is (= "abc" (apply str li))))
   (is (= 10 (apply + 1 2 [3 4])))
   )
 
