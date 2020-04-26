@@ -18,7 +18,6 @@
   :main ^:skip-aot clojure-learning-test.core
   :target-path "target/%s"
   :profiles {:dev
-             {:plugins [[com.jakemccrary/lein-test-refresh "0.24.1"]]
-              :dependencies [[javax.servlet/servlet-api "2.5"]
-                             [ring/ring-mock "0.3.0"]]} })
+              {:dependencies [[javax.servlet/servlet-api "2.5"]
+                              [ring/ring-mock "0.3.0"]]}})
 
