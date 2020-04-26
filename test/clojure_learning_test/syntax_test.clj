@@ -201,8 +201,9 @@
   (is (= nil (if false "a")))
 
   ;; Use let to create temporary bindings
-  (is (= let [a 1 b 2] (> b a)))
-  
+  (let [a 1 b 2]
+    (is (> b a)))
+
   ;; Group statements together with do
   (do
     (def a 1)
