@@ -14,7 +14,7 @@
 ;;; special forms
 (deftest destructuring-test
   (let [[a b c & d :as e] [1 2 3 4 5 6]]
-    (is (= [a b c d e]) [1 2 3 '(4 5 6) [1 2 3 4 5 6]]))
+    (is (= [a b c d e] [1 2 3 '(4 5 6) [1 2 3 4 5 6]])))
   (let [[[a b][c d]] [[1 2][3 4]]]
     (is (= [a b c d] [1 2 3 4])))
   (let [[a b & c :as str] "abcd"]
@@ -32,8 +32,7 @@
 
   (letfn [(keysfn [{:keys [name pw]}]
             (str name " "pw))]
-    (is (= "name pw" (keysfn {:name "name" :pw "pw"}))))
-  )
+    (is (= "name pw" (keysfn {:name "name" :pw "pw"})))))
 
 (deftest macroexpand-test
   (is (= '(if 1 (do 2 3)) (macroexpand '(when 1 2 3))))
@@ -202,8 +201,8 @@
   (is (= nil (if false "a")))
 
   ;; Use let to create temporary bindings
-  (is (= (let [a 1 b 2] (> b a))))
-
+  (is (= let [a 1 b 2] (> b a)))
+  
   ;; Group statements together with do
   (do
     (def a 1)
