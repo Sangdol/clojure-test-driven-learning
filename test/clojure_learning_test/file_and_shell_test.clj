@@ -3,7 +3,7 @@
             [clojure.java.shell :refer [sh]]))
 
 (deftest shell-test
-  (is (.contains (:out (sh "pwd")) "clojure-learning-test"))
+  (is (.contains (:out (sh "pwd")) "clojure-test-driven-learning"))
   )
 
 (deftest file-test
