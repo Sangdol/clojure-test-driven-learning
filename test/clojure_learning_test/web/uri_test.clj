@@ -1,6 +1,6 @@
 ;;; Exploding Fish - A URI Library for Clojure
 ;; https://github.com/wtetzner/exploding-fish
-(ns clojure-learning-test.uri-test
+(ns clojure-learning-test.web.uri-test
   (:require [clojure.test :refer :all]
             [org.bovinegenius.exploding-fish :refer :all]))
 

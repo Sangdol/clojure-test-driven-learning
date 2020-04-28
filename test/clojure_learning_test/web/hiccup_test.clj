@@ -1,7 +1,7 @@
 ;; hiccup tips - http://www.lispcast.com/hiccup-tips
 ;; - core/html - for pre-compile when using function
 ;;   - but everyting in Clojure is function? yeah right, but we wrap them with `html5` function or something
-(ns clojure-learning-test.hiccup-test
+(ns clojure-learning-test.web.hiccup-test
   (:require [hiccup.page :refer :all]
             [hiccup.core :refer :all]
             [clojure.test :refer :all]))

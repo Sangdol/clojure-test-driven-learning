@@ -1,4 +1,4 @@
-(ns clojure-learning-test.friend-test
+(ns clojure-learning-test.web.friend-test
   (:require [clojure.test :refer :all]
             [ring.mock.request :refer :all]
             [cemerick.friend :as friend]

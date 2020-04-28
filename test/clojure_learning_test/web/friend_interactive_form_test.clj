@@ -2,8 +2,8 @@
 ;; see also
 ;; * native test
 ;;   * https://github.com/cemerick/friend/blob/master/test/test_friend/interactive_form.clj
-(ns clojure-learning-test.friend-interactive-form-test
-  (:require [clojure-learning-test.friend-test :as ft]
+(ns clojure-learning-test.web.friend-interactive-form-test
+  (:require [clojure-learning-test.web.friend-test :as ft]
             [clojure.pprint :refer [pprint]]
             [ring.mock.request :refer :all]
             [ring.util.response :as response]

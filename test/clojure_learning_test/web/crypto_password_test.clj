@@ -1,5 +1,5 @@
 ;;; https://github.com/weavejester/crypto-password
-(ns clojure-learning-test.crypto-password-test
+(ns clojure-learning-test.web.crypto-password-test
   (:require [crypto.password.bcrypt :as bcrypt]
             [clojure.test :refer :all]))
 

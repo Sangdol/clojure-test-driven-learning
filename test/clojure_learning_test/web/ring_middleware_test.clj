@@ -1,5 +1,5 @@
 ;;; Ring Defaults - https://github.com/ring-clojure/ring-defaults
-(ns clojure-learning-test.ring-middleware-test
+(ns clojure-learning-test.web.ring-middleware-test
   (:require [clojure.test :refer :all]
             [ring.middleware.defaults :refer :all]
             [ring.mock.request :refer :all]

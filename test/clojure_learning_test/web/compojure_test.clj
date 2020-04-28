@@ -1,5 +1,5 @@
 ;;; Compojure - https://github.com/weavejester/compojure/wiki
-(ns clojure-learning-test.compojure-test
+(ns clojure-learning-test.web.compojure-test
   (:require [clojure.test :refer :all]
             [compojure.core :refer :all]
             [compojure.route :as route]

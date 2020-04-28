@@ -2,7 +2,7 @@
 ;;; - https://github.com/clojure/java.jdbc
 ;;; - http://clojure.github.io/java.jdbc/#clojure.java.jdbc/with-db-transaction
 ;;; - http://clojure-doc.org/articles/ecosystem/java_jdbc/home.html
-(ns clojure-learning-test.db-test
+(ns clojure-learning-test.web.db-test
   (:require [clojure.test :refer :all]
             [clojure.java.jdbc :as jdbc]
             [hikari-cp.core :as hc]))
