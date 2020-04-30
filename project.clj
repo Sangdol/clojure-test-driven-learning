@@ -17,7 +17,8 @@
                  [org.clojure/math.numeric-tower "0.0.4"]]
   :main ^:skip-aot clojure-learning-test.core
   :target-path "target/%s"
-  :profiles {:dev
+  :profiles {:uberjar {:aot :all}
+             :dev
               {:dependencies [[javax.servlet/servlet-api "2.5"]
                               [ring/ring-mock "0.3.0"]]}})
 
