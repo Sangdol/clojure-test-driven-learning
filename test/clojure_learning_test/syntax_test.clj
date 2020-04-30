@@ -8,8 +8,8 @@
   (is (= (cond
            (> 1 1) "hey"
            (> 2 2) "no"
-           :else true) true))
-  )
+           :else true) true)))
+
 
 ;;; special forms
 (deftest destructuring-test
@@ -35,8 +35,8 @@
     (is (= "name pw" (keysfn {:name "name" :pw "pw"})))))
 
 (deftest macroexpand-test
-  (is (= '(if 1 (do 2 3)) (macroexpand '(when 1 2 3))))
-  )
+  (is (= '(if 1 (do 2 3)) (macroexpand '(when 1 2 3)))))
+
 
 (deftest if-when-test
   (is (= 2 (if 1 2)))
@@ -45,15 +45,15 @@
 
   (let [x [1 2] y []]
     (is (= 1 (if-let [a (seq x)] (first a) "else")))
-    (is (= "else" (if-let [a (seq y)] (first a) "else")))
-    )
+    (is (= "else" (if-let [a (seq y)] (first a) "else"))))
+
 
   (let [x [1 2] y []]
     (is (= 1 (when-let [a (seq x)] (first a))))
-    (is (= nil (when-let [a (seq y)] (first a))))
+    (is (= nil (when-let [a (seq y)] (first a))))))
     ;(is (= 1 (when-let [a (seq x) b (seq y)] (cons a b)))) ;; cannot bind more than 1 in when-let
-    )
-  )
+
+
 
 (deftest metadata-test
   (is (= {:any "hoy"} (meta ^{:any "hoy"} [1])))
@@ -65,8 +65,8 @@
   (let [wm (with-meta [] {:a 10})]
     (is (= {:a 10} (meta wm)))
     (is (= {:a 10 :b 20} (meta (vary-meta wm assoc :b 20))))
-    (is (= {:a 11 :c 1} (meta (vary-meta wm merge {:a 11 :c 1})))))
-  )
+    (is (= {:a 11 :c 1} (meta (vary-meta wm merge {:a 11 :c 1}))))))
+
 
 (deftest dispatch-test
   "#"
@@ -75,8 +75,8 @@
   (is (= clojure.lang.Var (class #'meta)))
   (is (= #'meta (var meta)))
   (is (instance? clojure.lang.IFn  #()))
-  (is true #_ignore-this)
-  )
+  (is true #_ignore-this))
+
 
 (deftest quote-and-syntax-quote-test
   "https://blog.8thlight.com/colin-jones/2012/05/22/quoting-without-confusion.html"
@@ -92,8 +92,8 @@
   (is (= `{:a '~@(list 1 2)} {:a '(quote 1 2)}))
   (is (= `(1 (2 3)) '(1 (2 3))))
   (is (= `(1 `(2 3)) '(1 (clojure.core/seq (clojure.core/concat (clojure.core/list 2) (clojure.core/list 3))))))
-  (is (= (eval `(list 1 `(2 3))) '(1 (2 3))))
-  )
+  (is (= (eval `(list 1 `(2 3))) '(1 (2 3)))))
+
 
 (deftest loop-test
   (is (= [0 2] (for [x [0 1] :let [y (* x 2)]] y)))
@@ -110,8 +110,8 @@
   (is (= String (class "")))
   (is (= Boolean (class false)))
   (is (= nil (class nil)))
-  (is (= java.lang.Class (class clojure.lang.IFn)))
-  )
+  (is (= java.lang.Class (class clojure.lang.IFn))))
+
 
 (deftest literal-test
   (is (not= '(+ 1 2) (+ 1 2)))
@@ -173,8 +173,8 @@
 
   (defn hello-count [name & args]
     (str "Hello " name ", args: " args))
-  (is (= "Hello SH, args: (1 2 3)" (hello-count "SH" 1 2 3)))
-  )
+  (is (= "Hello SH, args: (1 2 3)" (hello-count "SH" 1 2 3))))
+
 
 (deftest let-test
   (let [name "SH"]
@@ -193,8 +193,8 @@
 
   (letfn [(add-3 [x] (+ x 3))]
     (let [x 1]
-      (is (= 4 (add-3 x)))))
-  )
+      (is (= 4 (add-3 x))))))
+
 
 (deftest useful-forms-test
   (is (= "b" (if false "a" "b")))
@@ -243,8 +243,8 @@
 
   (is (= (->>
            10
-           -) -10))
-  )
+           -) -10)))
+
 
 (deftest stm-test
   "
@@ -261,5 +261,5 @@
   (defn inc-counter []
     (swap! counter inc))
   (inc-counter)
-  (is (= @counter 1))
-  )
+  (is (= @counter 1)))
+
