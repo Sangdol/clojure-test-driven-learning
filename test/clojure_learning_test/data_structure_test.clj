@@ -1,5 +1,5 @@
 #_("
-  https://clojure.org/reference/data_structures#Keywords
+  https://clojure.org/reference/data_structures
   ")
 
 
