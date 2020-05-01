@@ -46,7 +46,7 @@
 
   (is (= [3 4] (subvec [1 2 3 4] 2)))
   (is (= [3] (subvec [1 2 3 4] 2 3))))
-  ; (is (= [3] (subvec '(1 2 3 4) 2 3))) ;; subvec cannot take list
+; (is (= [3] (subvec '(1 2 3 4) 2 3))) ;; subvec cannot take list
 
 
 (deftest sort-test
@@ -135,14 +135,21 @@
 
 
 (deftest maps-test
-  (is (= clojure.lang.PersistentArrayMap (class {:a 1 :b 2 :c 3})))
-  (is (= clojure.lang.PersistentHashMap (class (hash-map :a 1 :b 2 :c 3))))
+  (testing "type of map
+
+    https://stackoverflow.com/questions/16516176/what-is-the-difference-between-clojures-apersistentmap-implementations
+
+    Array maps get promoted to hash maps when growing beyond a certain number of entries
+    Array maps exist because they are faster for small maps
+    "
+    (is (= clojure.lang.PersistentArrayMap (class {:a 1 :b 2 :c 3})))
+    (is (= clojure.lang.PersistentHashMap (class (hash-map :a 1 :b 2 :c 3)))))
 
   ;; Maps can use any hashable type as a key, but usually keywords are best
   ;; Keywords are like strings with some efficiency bonuses
   (is (= clojure.lang.Keyword (class :a)))
 
-  ;; Commas are treated as whiltespace and do nothing
+  ;; Commas are treated as whitespace and do nothing
   (let [stringmap {"a" 1, "b" 2, "c" 3}]
     (is (= clojure.lang.PersistentArrayMap (class stringmap)))
     (is (= 1 (stringmap "a")))
@@ -158,13 +165,12 @@
   (is (= '(1 2) (vals {:a 1 :b 2})))
   (is (= 1 (first (vals {:a 1 :b 2}))))
 
-  (is (= {:b 1} (get-in {:a {:b 1}} [:a])))
-  (is (= 1 (get-in {:a {:b 1}} [:a :b])))
-  (is (= nil (get-in {:a {:b 1}} [:a :c])))
-  (is (= "not found" (get-in {:a {:b 1}} [:a :c] "not found")))
-  (is (= nil (get-in {:a {:b {:c 1}}} [:a :c])))
-
-  (is (= nil (get-in {:a {:b {:c 1}}} [:a :c])))
+  (testing "get from nested map"
+    (is (= {:b 1} (get-in {:a {:b 1}} [:a])))
+    (is (= 1 (get-in {:a {:b 1}} [:a :b])))
+    (is (= nil (get-in {:a {:b 1}} [:a :c])))
+    (is (= "not found" (get-in {:a {:b 1}} [:a :c] "not found")))
+    (is (= nil (get-in {:a {:b {:c 1}}} [:a :c]))))
 
   (let [keymap {:a {:b 1}}]
     (is (= {:a {:b 2}} (assoc-in keymap [:a :b] 2)))
