@@ -25,7 +25,7 @@
   (is (= '(3 4) (nthnext [0 1 2 3 4] 3)))
   (is (= nil (nthnext [] 3)))
   (is (= '(3 4) (drop 3 (range 5))))
-  (is (= () (drop 3 []))) ; a lazy sequence
+  (is (= () (drop 3 [])))                                   ; a lazy sequence
 
   ;; next/rest
   ;; http://stackoverflow.com/questions/4288476/clojure-rest-vs-next
@@ -38,28 +38,28 @@
   (is (= 3 (peek [1 2 3])))
   (is (= [1 2] (pop [1 2 3])))
   (is (= 1 (peek '(1 2 3))))
-  (is (= '(2 3) (pop '(1 2 3)) ))
+  (is (= '(2 3) (pop '(1 2 3))))
 
   (is (= [1 2] ((juxt :a :b) {:a 1 :b 2 :c 3})))
   (is (= [:keyword "keyword"] ((juxt identity name) :keyword)))
   (is (= [13 72 3 6] ((juxt + * min max) 3 4 6)))
 
   (is (= [3 4] (subvec [1 2 3 4] 2)))
-  (is (= [3] (subvec [1 2 3 4] 2 3)))
+  (is (= [3] (subvec [1 2 3 4] 2 3))))
   ; (is (= [3] (subvec '(1 2 3 4) 2 3))) ;; subvec cannot take list
-  )
+
 
 (deftest sort-test
   (is (= [1 2 3] (sort [3 2 1])))
   (is (= [3 2 1] (sort > [3 2 1])))
   (is (= '([1 2 3] [1 2] [1]) (sort-by count > '([1] [1 2] [1 2 3]))))
-  (is (= #{1 2 3} (sorted-set 3 2 1)))
-  )
+  (is (= #{1 2 3} (sorted-set 3 2 1))))
+
 
 (deftest group-by-test
   (is (= {true [0 2 4] false [1 3]} (group-by even? [0 1 2 3 4])))
-  (is (= {1 [[1]], 2 [[2 2]]} (group-by count [[1] [2 2]])))
-  )
+  (is (= {1 [[1]], 2 [[2 2]]} (group-by count [[1] [2 2]]))))
+
 
 (deftest seq-test
   (is (= '(1 2 3) (seq '(1 2 3))))
@@ -68,28 +68,28 @@
   (is (= nil (seq ())))
   (is (= nil (seq [])))
   (is (= nil (seq "")))
-  (is (every? seq ['(1) [2] #{1} {:a 1}])) ; this is the recommended idiom for testing if a collection is not empty
+  (is (every? seq ['(1) [2] #{1} {:a 1}]))                  ; this is the recommended idiom for testing if a collection is not empty
   (is (= (list [:a 1] [:b 2]) (seq {:a 1 :b 2})))
 
   ;; "Sequences" (seqs) are abstract descriptions of lists of data.
   (is (seq? '(1 2 3)))
   (is (not (seq? [1 2 3])))
   (is (not (seq? "ab")))
-  (is (not (seq? nil)))
-  )
+  (is (not (seq? nil))))
+
 
 (deftest lazy-seq-test
   (defn fib [a b]
     (lazy-seq (cons a (fib b (+ a b)))))
-  (is (= [1 1 2 3 5] (take 5 (fib 1 1))))
-  )
+  (is (= [1 1 2 3 5] (take 5 (fib 1 1)))))
+
 
 (deftest tree-seq-test
   (is (= [[1 [2]] 1 [2] 2] (tree-seq coll? identity [1 [2]])))
   (is (= [[1 [2]] 1 [2] 2] (tree-seq coll? seq [1 [2]])))
   (is (= [[1 [2 [3]]] [2 [3]] [3]] (tree-seq next rest [1 [2 [3]]])))
-  (is (= [1 2 3] (map first (tree-seq next rest [1 [2 [3]]]))))
-  )
+  (is (= [1 2 3] (map first (tree-seq next rest [1 [2 [3]]])))))
+
 
 (deftest list-vec-test
   ;; What is difference between Vector and List?
@@ -111,8 +111,8 @@
   (is (= [nil 2] (list* nil [2])))
   (is (= [1] (list* 1 nil)))
   (is (= [1 2 3] (list* 1 2 [3])))
-  (is (= '(1 2 3) (list* 1 2 '(3))))
-  )
+  (is (= '(1 2 3) (list* 1 2 '(3)))))
+
 
 (deftest flatten-test
   (is (= [1 2 3 4] (flatten [1 [2] [[3] 4]])))
@@ -131,8 +131,8 @@
 
   (defn flatten2 [lst]
     (remove coll? (tree-seq coll? seq lst)))
-  (is (= [1 2 3 4] (flatten1 [1 [2] [[3] 4]])))
-  )
+  (is (= [1 2 3 4] (flatten1 [1 [2] [[3] 4]]))))
+
 
 (deftest maps-test
   (is (= clojure.lang.PersistentArrayMap (class {:a 1 :b 2 :c 3})))
@@ -180,8 +180,7 @@
 
   (let [map {:a 1}]
     (is (= [:a 1]
-      (reduce #(vec [(first %2) (second %2)]) [] map))))
-  )
+           (reduce #(vec [(first %2) (second %2)]) [] map)))))
 
 (deftest sets-test
   (is (= clojure.lang.PersistentHashSet (class #{1 2 3})))
@@ -189,5 +188,4 @@
   (is (= #{1 2 3 4} (conj #{1 2 3} 4)))
   (is (= #{1 2} (disj #{1 2 3} 3)))
   (is (= 1 (#{1 2 3} 1)))
-  (is (= nil (#{1 2 3} 4)))
-  )
+  (is (= nil (#{1 2 3} 4))))
