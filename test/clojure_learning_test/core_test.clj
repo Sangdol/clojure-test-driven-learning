@@ -15,8 +15,8 @@
   (is (= [1 1 1] (repeat 3 1)))
   (is (= 10 ((constantly 10) 3)))
   (is (= [[1 2] [3 4 5]] (split-at 2 [1 2 3 4 5])))
-  (is (= {'a 3 'b 1} (frequencies ['a 'a 'a 'b])))
-  )
+  (is (= {'a 3 'b 1} (frequencies ['a 'a 'a 'b]))))
+
 
 (deftest fnil-test
   (letfn [(hello [h w] (str h " " w))]
@@ -29,8 +29,8 @@
   "The symbol must resolve to a var, and the Var object itself is returned."
   (is (= #'clojure.core/defn #'defn))
   (is (= #'clojure.core/defn (var defn)))
-  (is (= #'clojure.core/+ (var +)))
-  )
+  (is (= #'clojure.core/+ (var +))))
+
 
 (deftest partition-test
   (is (= '((0 1) (2 3)) (partition 2 (range 4))))
@@ -42,24 +42,24 @@
   (is (= '((0 1 2) (3 10)) (partition 3 3 [10] (range 4))))
   
   (is (= '((0 1) (2)) (partition-all 2 (range 3))))
-  (is (= '((0 1) (3)) (partition-all 2 3 (range 4))))
-  )
+  (is (= '((0 1) (3)) (partition-all 2 3 (range 4)))))
+
 
 (deftest repeatedly-test
   (is (= 1 (count (set (repeat 5 (rand-int 1000))))))
-  (is (< 1 (count (set (repeatedly 5 #(rand-int 1000))))))
-  )
+  (is (< 1 (count (set (repeatedly 5 #(rand-int 1000)))))))
+
 
 (deftest interleave-test
   (is (= [1 2 1 2 1 2] (interleave [1 1 1] [2 2 2])))
   (is (= [1 2 3 1 2 3] (interleave [1 1] [2 2] [3 3])))
-  (is (= [1 2 1 2] (interleave [1 1] [2 2 2])))
-  )
+  (is (= [1 2 1 2] (interleave [1 1] [2 2 2]))))
+
 
 (deftest interpose-test
   (is (= [1 0 2 0 3] (interpose 0 [1 2 3])))
-  (is (= "1, 2, 3" (apply str (interpose ", " ["1", "2", "3"]))))
-  )
+  (is (= "1, 2, 3" (apply str (interpose ", " ["1", "2", "3"])))))
+
 
 (deftest pred-test
   (is (odd? 1))
@@ -70,8 +70,8 @@
   (is (nil? nil))
   (is (some? 1)) ; for not-nil?
   (is (complement neg?) 0)
-  (is (complement neg?) 1)
-  )
+  (is (complement neg?) 1))
+
 
 (deftest concat-mapcat-test
   (is (= '(1 2 3 4) (concat [1 2] '(3 4))))
@@ -81,8 +81,8 @@
   ;; mapcat = map and concat
   (is (= [0 1 2 3] (mapcat reverse [[1 0] [3 2]])))
   (is (= [1 2 2 3 3 4] (mapcat (fn [n] [n (+ n 1)]) [1 2 3])))
-  (is (= [1 2 1 2] (mapcat list [1 1] [2 2])))
-  )
+  (is (= [1 2 1 2] (mapcat list [1 1] [2 2]))))
+
 
 (deftest binding-test
   (is (thrown-with-msg?
@@ -99,10 +99,10 @@
     (is (thrown-with-msg?
           IllegalStateException
           #"Can't change/establish root binding of"
-          (set! y 100)))
-    )
-  (is (= 3 (+ x y)))
-  )
+          (set! y 100))))
+
+  (is (= 3 (+ x y))))
+
 
 (deftest keyword-and-symbol-test
   (is (= :abc (keyword "abc")))
@@ -114,8 +114,8 @@
   (is (= :clojure.math.numeric-tower/abs ::math/abs))
 
   (is (= 'abc (symbol "abc")))
-  (is (= 'abc/def (symbol "abc" "def")))
-  )
+  (is (= 'abc/def (symbol "abc" "def"))))
+
 
 (deftest truthy-falsey-test
   "only 'false' and 'nil' are falsey"
@@ -124,8 +124,8 @@
   (is -1)
   (is true)
   (is (not nil))
-  (is (not false))
-  )
+  (is (not false)))
+
 
 (deftest contains?-test
   "Searches indicies or keys"
@@ -134,8 +134,8 @@
   (is (not (contains? "a" 1)))
   (is (contains? [:a] 0))
   (is (not (contains? [:a] :a)))
-  (is (contains? #{"a" "b" "c"} "a")) ; the members of a set are the keys
-  )
+  (is (contains? #{"a" "b" "c"} "a"))) ; the members of a set are the keys
+
 
 (deftest iterate-test
   (is (= [0 1 2] (take 3 (iterate inc 0))))
@@ -143,8 +143,8 @@
 
   (def fiblet (iterate (fn [[a b]] [b (+ a b)]) [1 1]))
   (is (= '([1 1] [1 2] [2 3]) (take 3 fiblet)))
-  (is (= [1 1 2 3 5] (take 5 (map first fiblet))))
-  )
+  (is (= [1 1 2 3 5] (take 5 (map first fiblet)))))
+
 
 (deftest reverse-test
   "
@@ -158,15 +158,15 @@
   (is (= [2 1] (into () [1 2])))
 
   (is (= (list \c \b \a) (reverse "abc"))) ; Need to use clojure.string/reverse for getting "cba"
-  (is (= "cba" (apply str (reverse "abc"))))
-  )
+  (is (= "cba" (apply str (reverse "abc")))))
+
 
 (deftest some-test
   (is (= true (some even? '(1 2 3))))
   (is (= nil (some even? '(1 3 5))))
   (is (= 1 (some identity '(nil false 1))))
-  (is (= 2 (some #(and (even? %) %) '(-1 3 1 2))))
-  )
+  (is (= 2 (some #(and (even? %) %) '(-1 3 1 2)))))
+
 
 (deftest cons-conj-test
   ;; Use cons to add an item to the beginning of a list or vector
@@ -195,8 +195,8 @@
   (is (thrown? IllegalArgumentException (cons 1 2 3 '(4 5 6))))
   (is (= clojure.lang.Cons (class (cons 3 '(1 2)))))
   (is (= clojure.lang.PersistentList (class (next (cons 3 '(1 2))))))
-  (is (= '(1 2) (next (cons 3 '(1 2)))))
-  )
+  (is (= '(1 2) (next (cons 3 '(1 2))))))
+
 
 (deftest partial-test
   (def hundred-times (partial * 100))
@@ -209,8 +209,8 @@
 
   (defn add-and-multiply [m]
     (partial (fn [m n] (* (+ m n) n)) m))
-  (is (= 15 ((add-and-multiply 2) 3)))
-  )
+  (is (= 15 ((add-and-multiply 2) 3))))
+
 
 (deftest map-filter-reduce-test
   (is (= '(2 3 4) (map inc '(1 2 3))))
@@ -232,26 +232,26 @@
   (is (= 3 (count [1 2 3])))
   (is (= 3 (count "abc")))
   (is (= 3 (reduce #(and %2 (inc %1)) 0 [1 2 3])))
-  (is (= 3 (reduce (fn [n _] (inc n)) 0 [1 2 3])))
-  )
+  (is (= 3 (reduce (fn [n _] (inc n)) 0 [1 2 3]))))
+
 
 (deftest comp-test
   (let [muliply-and-minus (comp - *)
         countif (comp count filter)]
     (is (= -6 (muliply-and-minus 2 3)))
-    (is (= 1 (countif even? [1 2 3]))))
-  )
+    (is (= 1 (countif even? [1 2 3])))))
+
 
 (deftest apply-test
   (let [li ["a" "b" "c"]]
     (is (= "[\"a\" \"b\" \"c\"]" (str li)))
     (is (= "abc" (apply str li))))
-  (is (= 10 (apply + 1 2 [3 4])))
-  )
+  (is (= 10 (apply + 1 2 [3 4]))))
+
 
 
 (deftest identity-test
   (is (= 1 (identity 1)))
   (is (= '(1 2 3) (filter identity [1 2 3 nil])))
-  (is (= '((\H \H) (\a)) (partition-by identity "HHa")))
-  )
+  (is (= '((\H \H) (\a)) (partition-by identity "HHa"))))
+

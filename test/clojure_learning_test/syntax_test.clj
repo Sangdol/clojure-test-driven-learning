@@ -41,7 +41,12 @@
 (deftest if-when-test
   (is (= 2 (if 1 2)))
   (is (= 2 (if nil 1 2)))
+
+  ;; 'when' is like 'if' + 'do' but without 'else'
   (is (= 2 (when 1 (def x 2) x)))
+  (when true
+    (is (= 1 1))
+    (is (= 2 2)))
 
   (let [x [1 2] y []]
     (is (= 1 (if-let [a (seq x)] (first a) "else")))
@@ -52,7 +57,6 @@
     (is (= 1 (when-let [a (seq x)] (first a))))
     (is (= nil (when-let [a (seq y)] (first a))))))
     ;(is (= 1 (when-let [a (seq x) b (seq y)] (cons a b)))) ;; cannot bind more than 1 in when-let
-
 
 
 (deftest metadata-test
@@ -78,10 +82,12 @@
   (is true #_ignore-this))
 
 
-(deftest quote-and-syntax-quote-test
+(deftest symbol-quote-and-syntax-quote-test
   "https://blog.8thlight.com/colin-jones/2012/05/22/quoting-without-confusion.html"
   (is (= `a 'clojure-learning-test.syntax-test/a))
   (is (= 'a (quote a)))
+  (is (= 'a (symbol 'a)))
+  (is (= 'a (symbol "a")))
   (is (= `(abc ~(symbol "def") ~'ghi) '(clojure-learning-test.syntax-test/abc def ghi)))
   (is (= `(max ~@(range 3)) '(clojure.core/max 0 1 2)))
   (is (= `(let (+ 1 1)) '(clojure.core/let (clojure.core/+ 1 1))))
@@ -158,6 +164,7 @@
 
   (is (= 6 (#(reduce + %&) 1 2 3)))
 
+  ;; arity overloading
   (defn hello3
     ([] "Hello world")
     ([name] (str "Hello " name))
