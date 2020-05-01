@@ -40,7 +40,7 @@
   (is (= '((0 1 2)) (partition 3 3 (range 4))))
   (is (= '((0 1 2) (3)) (partition 3 3 [] (range 4))))
   (is (= '((0 1 2) (3 10)) (partition 3 3 [10] (range 4))))
-  
+
   (is (= '((0 1) (2)) (partition-all 2 (range 3))))
   (is (= '((0 1) (3)) (partition-all 2 3 (range 4)))))
 
@@ -68,7 +68,7 @@
   (is (neg? -1))
   (is (zero? 0))
   (is (nil? nil))
-  (is (some? 1)) ; for not-nil?
+  (is (some? 1))                                            ; for not-nil?
   (is (complement neg?) 0)
   (is (complement neg?) 1))
 
@@ -107,7 +107,7 @@
 (deftest keyword-and-symbol-test
   (is (= :abc (keyword "abc")))
   (is (= :abc/def (keyword "abc" "def")))
-  (is (= nil (keyword 1))) ; only convert strings
+  (is (= nil (keyword 1)))                                  ; only convert strings
 
   ;; http://kotka.de/blog/2010/05/Did_you_know_III.html
   (is (= :clojure-learning-test.core-test/a ::a))
@@ -134,7 +134,7 @@
   (is (not (contains? "a" 1)))
   (is (contains? [:a] 0))
   (is (not (contains? [:a] :a)))
-  (is (contains? #{"a" "b" "c"} "a"))) ; the members of a set are the keys
+  (is (contains? #{"a" "b" "c"} "a")))                      ; the members of a set are the keys
 
 
 (deftest iterate-test
@@ -157,7 +157,7 @@
   (is (= [2 1] (apply conj () [1 2])))
   (is (= [2 1] (into () [1 2])))
 
-  (is (= (list \c \b \a) (reverse "abc"))) ; Need to use clojure.string/reverse for getting "cba"
+  (is (= (list \c \b \a) (reverse "abc")))                  ; Need to use clojure.string/reverse for getting "cba"
   (is (= "cba" (apply str (reverse "abc")))))
 
 
@@ -181,7 +181,7 @@
   (is (= [1 2 3 4] (conj [1 2] 3 4)))
   (is (= [1 2 '(3 4)] (conj [1 2] '(3 4))))
   (is (= [1 2 [3 4]] (conj [1 2] [3 4])))
-  (is (= {1 2 3 4} (conj {1 2} [3 4]))) ;; Map
+  (is (= {1 2 3 4} (conj {1 2} [3 4])))                     ;; Map
   (is (= {1 2 3 4 5 6} (conj {1 2} [3 4] {5 6})))
 
   (is (= [:a :b :c] '(:a :b :c) (vec '(:a :b :c)) (vector :a :b :c)))

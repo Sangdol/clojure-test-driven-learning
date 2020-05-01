@@ -35,13 +35,13 @@
   ; Use "use" to get all functions from the module (outside of functions)
   ; Then we can use set operations
   (is (= #{2 3} (intersection #{1 2 3} #{2 3 4})))
-  (is (= #{1} (difference #{1 2 3} #{2 3 4}))) ; not #{1 4}
+  (is (= #{1} (difference #{1 2 3} #{2 3 4})))              ; not #{1 4}
 
   ; Use '/' call functions from a module
   (is (clojure.string/blank? ""))
   ; #"" denotes a regular expression literal
-  (is (= "ABcd" (str/replace "abcd" #"[a-b]" str/upper-case)))
-  )
+  (is (= "ABcd" (str/replace "abcd" #"[a-b]" str/upper-case))))
+
 
 ;
 ; Java
