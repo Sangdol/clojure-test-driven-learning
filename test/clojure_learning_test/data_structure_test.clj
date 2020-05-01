@@ -10,5 +10,7 @@
 (deftest keyword-test
   (testing ":keyword implements IFN"
     (is (= 'sang (:name {:name 'sang})))
-    (is (= 'sang (:name {:age 36} 'sang)))))
+    (is (= 'sang (:name {:age 36} 'sang)))
+    (is (= (get {:age 36} :name 'sang)
+           (:name {:age 36} 'sang)))))
 
