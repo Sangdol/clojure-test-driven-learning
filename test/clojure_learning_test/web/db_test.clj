@@ -27,8 +27,8 @@
                        "))
 
 (defn destroy-tables []
-  (jdbc/db-do-commands *db* "DROP ALL OBJECTS")
-  )
+  (jdbc/db-do-commands *db* "DROP ALL OBJECTS"))
+
 
 (defn prep-db [test]
   (create-tables)
@@ -56,8 +56,8 @@
                               :age 33}))
 (deftest insert-test
   (is (= (list {(keyword "scope_identity()") 1}) (insert-user)))
-  (is (= {(keyword "scope_identity()") 2} (first (insert-user))))
-  )
+  (is (= {(keyword "scope_identity()") 2} (first (insert-user)))))
+
 
 (deftest select-test
   (insert-user)
@@ -70,5 +70,5 @@
   (is (= 33 (:age first-user)))
 
   (is (= (first (jdbc/query *db* ["SELECT name, age FROM person WHERE name = ?" "SH"]))
-         {:name "SH" :age 33}))
-  )
+         {:name "SH" :age 33})))
+
