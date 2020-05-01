@@ -69,8 +69,10 @@
     (is (= "else" (if-let [a (seq y)] (first a) "else"))))
 
 
+  ;; when-let binds if the value is logical true
   (let [x [1 2] y []]
     (is (= 1 (when-let [a (seq x)] (first a))))
+    ;; seq returns nil if the collection is empty
     (is (= nil (when-let [a (seq y)] (first a))))))
     ;(is (= 1 (when-let [a (seq x) b (seq y)] (cons a b)))) ;; cannot bind more than 1 in when-let
 
@@ -127,6 +129,9 @@
     (is (= [1 2] (for [x digits y digits z digits :when (= x y z)] x)))
     (is (= [1] (for [x digits y digits z digits :while (= x y z)] x))))
 
+  ;; recur avoids stack consumption and stackoverflow.
+  ;; JVM doesn't support tail call optimization.
+  ;; recur is an explicit way of the optimization.
   (testing "loop loop"
     (is (= 120 (loop [x 5 acc 1] ;; factorial
                  (if (> x 1)

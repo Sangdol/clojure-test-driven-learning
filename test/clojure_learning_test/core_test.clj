@@ -8,6 +8,9 @@
             [clojure.math.numeric-tower :as math]))
 
 (deftest misc-test
+  (is (every? odd? [1 3]))
+  (is (not-any? odd? [2 4]))
+  (is (some odd? [1 2]))
   (is (= 1 (when true 1)))
   (is (= nil (when false 1)))
   (is (= [1] (butlast [1 2])))
@@ -195,24 +198,25 @@
   (is (= '(6 5 4 1 2 3) (conj '(1 2 3) 4 5 6)))
   (is (= clojure.lang.PersistentList (class (conj '(1 2) 3))))
   ;; cons takes just one (cons = construct a seq)
-  (is (thrown? IllegalArgumentException (cons 1 2 3 '(4 5 6))))
+  ;; (commenting this to avoid IDE error)
+  ;(is (thrown? IllegalArgumentException (cons 1 2 3 '(4 5 6))))
   (is (= clojure.lang.Cons (class (cons 3 '(1 2)))))
   (is (= clojure.lang.PersistentList (class (next (cons 3 '(1 2))))))
   (is (= '(1 2) (next (cons 3 '(1 2))))))
 
 
 (deftest partial-test
-  (def hundred-times (partial * 100))
-  (is (= 300 (hundred-times 3)))
-  (is (= 600 (hundred-times 3 2)))
+  (let [hundred-times (partial * 100)]
+    (is (= 300 (hundred-times 3)))
+    (is (= 600 (hundred-times 3 2))))
 
-  (def minus-from-hundred (partial - 100))
-  (is (= 70 (minus-from-hundred 30)))
-  (is (= 50 (minus-from-hundred 30 20)))
+  (let [minus-from-hundred (partial - 100)]
+    (is (= 70 (minus-from-hundred 30)))
+    (is (= 50 (minus-from-hundred 30 20))))
 
-  (defn add-and-multiply [m]
-    (partial (fn [m n] (* (+ m n) n)) m))
-  (is (= 15 ((add-and-multiply 2) 3))))
+  (letfn [(add-and-multiply [m]
+            (partial (fn [m n] (* (+ m n) n)) m))]
+    (is (= 15 ((add-and-multiply 2) 3)))))
 
 
 (deftest map-filter-reduce-test
