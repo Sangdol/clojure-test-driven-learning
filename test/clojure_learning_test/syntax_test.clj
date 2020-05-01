@@ -1,5 +1,21 @@
-;;; Reader - http://clojure.org/reader
-;;; TODO Special forms - http://clojure.org/special_forms
+(comment
+  Reader - http://clojure.org/reader
+
+  TODO Special forms - http://clojure.org/special_forms)
+
+(comment "
+  Another way to put a multiline comment.
+  This form doesn't need to follow the rule of the reader.
+")
+
+#_(can I just put like this?
+       This is another way to put a multiline comment)
+
+#_("
+  Another way to put anything like this:
+  https://clojure.org/reference/data_structures#Keywords
+  ")
+
 (ns clojure-learning-test.syntax-test
   (:require [clojure.test :refer :all]))
 
@@ -102,13 +118,21 @@
 
 
 (deftest loop-test
-  (is (= [0 2] (for [x [0 1] :let [y (* x 2)]] y)))
-  (is (= [2] (for [x [0 1] :let [y (* x 2)] :when (> y 0)] y)))
-  (def digits (seq [1 2]))
-  (is (= [1 2 2 4 2 4 4 8]
-         (for [x1 digits x2 digits x3 digits] (* x1 x2 x3))))
-  (is (= [1 2] (for [x digits y digits z digits :when (= x y z)] x)))
-  (is (= [1] (for [x digits y digits z digits :while (= x y z)] x))))
+  (testing "for loop"
+    (is (= [0 2] (for [x [0 1] :let [y (* x 2)]] y)))
+    (is (= [2] (for [x [0 1] :let [y (* x 2)] :when (> y 0)] y)))
+    (def digits (seq [1 2]))
+    (is (= [1 2 2 4 2 4 4 8]
+           (for [x1 digits x2 digits x3 digits] (* x1 x2 x3))))
+    (is (= [1 2] (for [x digits y digits z digits :when (= x y z)] x)))
+    (is (= [1] (for [x digits y digits z digits :while (= x y z)] x))))
+
+  (testing "loop loop"
+    (is (= 120 (loop [x 5 acc 1] ;; factorial
+                 (if (> x 1)
+                   (recur (dec x) (* acc x))
+                   acc))))))
+
 
 (deftest class-test
   (is (= Long (class 1)))
