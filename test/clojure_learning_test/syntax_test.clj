@@ -50,9 +50,6 @@
             (str name " "pw))]
     (is (= "name pw" (keysfn {:name "name" :pw "pw"})))))
 
-(deftest macroexpand-test
-  (is (= '(if 1 (do 2 3)) (macroexpand '(when 1 2 3)))))
-
 
 (deftest if-when-test
   (is (= 2 (if 1 2)))
