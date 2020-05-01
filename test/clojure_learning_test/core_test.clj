@@ -176,6 +176,9 @@
   (is (= [[] 1] (cons [] [1])))
 
   ;; Conj add an item to a collection in the most effective way.
+  ;; e.g.,
+  ;;   - vec(ArrayList): add to the back
+  ;;   - list(LinkedList): add to the front
   (is (= [1 2 3 4] (conj [1 2 3] 4)))
   (is (= '(4 1 2 3) (conj '(1 2 3) 4)))
   (is (= [1 2 3 4] (conj [1 2] 3 4)))
