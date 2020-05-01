@@ -252,9 +252,14 @@
   (is (= 10 (apply + 1 2 [3 4]))))
 
 
-
 (deftest identity-test
   (is (= 1 (identity 1)))
   (is (= '(1 2 3) (filter identity [1 2 3 nil])))
   (is (= '((\H \H) (\a)) (partition-by identity "HHa"))))
 
+
+(deftest read-string-test
+  "read one object from string"
+  (is (= 100 (read-string "100")))
+  (is (= '(+ 1 2) (read-string "(+ 1 2)")))
+  (is (= 3 (eval (read-string "(+ 1 2)")))))
