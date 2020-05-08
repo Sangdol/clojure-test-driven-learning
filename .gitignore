@@ -12,3 +12,9 @@ pom.xml.asc
 /.nrepl-port
 .hgignore
 .hg/
+
+# For ClojureScript
+out/
+node_modules/
+resources/
+package-lock.json

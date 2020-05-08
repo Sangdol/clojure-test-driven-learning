@@ -4,6 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.10.1"]
+                 [org.clojure/clojurescript "1.10.339"]
                  [ring/ring-defaults "0.1.5"]
                  [com.cemerick/friend "0.2.1"]
                  [ring "1.4.0"]
@@ -15,10 +16,16 @@
                  [org.clojure/java.jdbc "0.4.2"]
                  [com.h2database/h2 "1.4.190"]
                  [org.clojure/math.numeric-tower "0.0.4"]]
+  :plugins [[lein-cljsbuild "1.1.7"]]
   :main ^:skip-aot clojure-learning-test.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
              :dev
               {:dependencies [[javax.servlet/servlet-api "2.5"]
-                              [ring/ring-mock "0.3.0"]]}})
+                              [ring/ring-mock "0.3.0"]]}}
+  :cljsbuild {:builds [{:id "test"
+                        :source-paths ["src" "test"]
+                        :compiler {:output-to "resources/public/js/testable.js"
+                                   :main clojurescript_learning_test.runner
+                                   :optimizations :none}}]})
 
