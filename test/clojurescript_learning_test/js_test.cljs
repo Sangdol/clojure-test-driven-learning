@@ -13,7 +13,7 @@ https://cljs.github.io/api/syntax/js-namespace
   (is (= 3 (.-length "ABC")))
 
   ;; Using underlying JS namespace
-  (is (= 3.5 (js/Window.parseFloat "3.5"))))
+  (is (= 3.5 (js/window.parseFloat "3.5"))))
 
 (deftest creating-object-test
   ;; (new Date).getHours()
