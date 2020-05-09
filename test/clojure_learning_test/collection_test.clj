@@ -91,6 +91,11 @@
   (is (= [1 2 3] (map first (tree-seq next rest [1 [2 [3]]])))))
 
 
+(deftest vector-init
+  (is (= [0 0 0] (vec (repeat 3 0))))
+  (is (= [[0 0 0] [0 0 0]] (vec (repeat 2 (vec (repeat 3 0)))))))
+
+
 (deftest list-vec-test
   ;; What is difference between Vector and List?
   ;; http://stackoverflow.com/questions/1147975/in-clojure-when-should-i-use-a-vector-over-a-list-and-the-other-way-around
