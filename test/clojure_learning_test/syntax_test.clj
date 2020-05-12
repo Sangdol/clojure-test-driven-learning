@@ -129,6 +129,10 @@
     (is (= [1 2] (for [x digits y digits z digits :when (= x y z)] x)))
     (is (= [1] (for [x digits y digits z digits :while (= x y z)] x))))
 
+  (testing "for loop with index"
+    (is (= [[0 'a] [1 'b]] (for [[i c] (map-indexed vector ['a 'b])]
+                             [i c]))))
+
   ;; recur avoids stack consumption and stackoverflow.
   ;; JVM doesn't support tail call optimization.
   ;; recur is an explicit way of the optimization.
