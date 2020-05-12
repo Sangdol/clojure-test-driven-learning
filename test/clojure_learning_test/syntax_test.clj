@@ -117,6 +117,9 @@
 
 
 (deftest loop-test
+  ;; The difference is that for builds a lazy sequence and returns it
+  ;; while doseq is for executing side-effects and returns nil.
+  ;; https://stackoverflow.com/questions/4725417/difference-between-doseq-and-for-in-clojure/5287434
   (testing "for loop"
     (is (= [0 2] (for [x [0 1] :let [y (* x 2)]] y)))
     (is (= [2] (for [x [0 1] :let [y (* x 2)] :when (> y 0)] y)))
