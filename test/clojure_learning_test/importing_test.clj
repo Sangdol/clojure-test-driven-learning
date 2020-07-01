@@ -22,8 +22,10 @@
 ; Use "use" to get all functions from the module
 ; e.g., intersection, difference
 (use 'clojure.set)
-; You can choose a subset of functions to import, too
-; (use '[clojure.set :only [intersection]])
+
+; import only a function
+; https://8thlight.com/blog/colin-jones/2010/12/05/clojure-libs-and-namespaces-require-use-import-and-ns.html
+(use '[clojure.string :only [split]])
 
 ; Use 'require' to import a module
 (require 'clojure.string)
