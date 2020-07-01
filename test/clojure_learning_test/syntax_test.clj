@@ -19,6 +19,82 @@
 (ns clojure-learning-test.syntax-test
   (:require [clojure.test :refer :all]))
 
+(deftest def-and-function-test
+  "
+  Function is an anonymous class from the perspective of JVM
+  http://stackoverflow.com/questions/3708516/what-type-is-a-function
+  "
+  (is (instance? clojure.lang.IFn (fn [] "")))
+  (is (= "Hello world" ((fn [] "Hello world"))))
+  (testing "name of fn can be used for internal recursion
+      http://stackoverflow.com/questions/10490513/how-to-do-recursion-in-anonymous-fn-without-tail-recursion"
+    (is (= ((fn pow [n e]
+              (if (zero? e)
+                1
+                (* n (pow n (dec e))))) 2 3) 8)))
+
+  (def x 1)
+  (is (= x 1))
+
+  (def hello-world (fn [] "Hello world"))
+  (is (= "Hello world" (hello-world)))
+
+  (defn hello-world [] "Hello world")
+  (is (= "Hello world" (hello-world)))
+
+  (defn hello [name] (str "Hello " name))
+  (is (= "Hello world" (hello "world")))
+
+  (def hello2 #(str "Hello " %1))
+  (is (= "Hello world" (hello2 "world")))
+
+  (def hello2-1 #(str "Hello " %))
+  (is (= "Hello world" (hello2-1 "world")))
+
+  ;; #([%]) - syntax error
+  ;; http://stackoverflow.com/questions/4921566/clojure-returning-a-vector-from-an-anonymous-function
+  (is (= [1] (#(vector %1) 1)))
+
+  (is (= 6 (#(reduce + %&) 1 2 3)))
+
+  ;; arity overloading
+  (defn hello3
+    ([] "Hello world")
+    ([name] (str "Hello " name))
+    ([name age] (str "Hello " name "(" age ")")))
+  (is (= "Hello world" (hello3)))
+  (is (= "Hello world" (hello3 "world")))
+  (is (= "Hello world(33)" (hello3 "world" 33)))
+
+  ;; Pack arguments up in a seq
+  (defn count-args [& args]
+    (str (count args) " args: " args))
+  (is (= "3 args: (1 2 3)" (count-args 1 2 3)))
+
+  (defn hello-count [name & args]
+    (str "Hello " name ", args: " args))
+  (is (= "Hello SH, args: (1 2 3)" (hello-count "SH" 1 2 3))))
+
+
+(deftest let-test
+  (let [name "SH"]
+    (is (= name "SH"))
+    (is (not (= name "HJ"))))
+
+  (defn f []
+    (let [a "a"]
+      {:a a}))
+
+  (is (= {:a "a"} (f)))
+
+  (letfn [(add-5 [x]
+            (+ x 5))]
+    (is (= 8 (add-5 3))))
+
+  (letfn [(add-3 [x] (+ x 3))]
+    (let [x 1]
+      (is (= 4 (add-3 x))))))
+
 (deftest cond-test
   "switch"
   (is (= (cond
@@ -103,9 +179,20 @@
   (is (= 'a (quote a)))
   (is (= 'a (symbol 'a)))
   (is (= 'a (symbol "a")))
+
+  ;; unquote
   (is (= `(abc ~(symbol "def") ~'ghi) '(clojure-learning-test.syntax-test/abc def ghi)))
+
+  ;; unquote-splicing
   (is (= `(max ~@(range 3)) '(clojure.core/max 0 1 2)))
+
+  ;; run 'reduce' instead of splicing
+  (is (= `(max ~(reduce + (range 3))) '(clojure.core/max 3)))
+
+  ;; unquoting vs. not-unquoting
+  (is (= `(let ~(+ 1 1)) '(clojure.core/let 2)))
   (is (= `(let (+ 1 1)) '(clojure.core/let (clojure.core/+ 1 1))))
+
   (is (= (count (distinct `(foo# foo#))) 1)) ; output of clojure.core/gensym e.g. foo_1865__auto__. to avoid variable capture problems
   (is (= `[:a c] [:a 'clojure-learning-test.syntax-test/c]))
   (is (= `[:a c] `[:a ~`c]))
@@ -158,82 +245,6 @@
   (is (= (+ 1 2) (eval '(+ 1 2))))
   (is (= (first (first '((1)))) 1))
   (is (= '((1)) [[1]])))
-
-(deftest function-test
-  "
-  Function is an anonymous class from the perspective of JVM
-  http://stackoverflow.com/questions/3708516/what-type-is-a-function
-  "
-  (is (instance? clojure.lang.IFn (fn [] "")))
-  (is (= "Hello world" ((fn [] "Hello world"))))
-  (testing "name of fn can be used for internal recursion
-      http://stackoverflow.com/questions/10490513/how-to-do-recursion-in-anonymous-fn-without-tail-recursion"
-    (is (= ((fn pow [n e]
-              (if (zero? e)
-                1
-                (* n (pow n (dec e))))) 2 3) 8)))
-
-  (def x 1)
-  (is (= x 1))
-
-  (def hello-world (fn [] "Hello world"))
-  (is (= "Hello world" (hello-world)))
-
-  (defn hello-world [] "Hello world")
-  (is (= "Hello world" (hello-world)))
-
-  (defn hello [name] (str "Hello " name))
-  (is (= "Hello world" (hello "world")))
-
-  (def hello2 #(str "Hello " %1))
-  (is (= "Hello world" (hello2 "world")))
-
-  (def hello2-1 #(str "Hello " %))
-  (is (= "Hello world" (hello2-1 "world")))
-
-  ;; #([%]) - syntax error
-  ;; http://stackoverflow.com/questions/4921566/clojure-returning-a-vector-from-an-anonymous-function
-  (is (= [1] (#(vector %1) 1)))
-
-  (is (= 6 (#(reduce + %&) 1 2 3)))
-
-  ;; arity overloading
-  (defn hello3
-    ([] "Hello world")
-    ([name] (str "Hello " name))
-    ([name age] (str "Hello " name "(" age ")")))
-  (is (= "Hello world" (hello3)))
-  (is (= "Hello world" (hello3 "world")))
-  (is (= "Hello world(33)" (hello3 "world" 33)))
-
-  ;; Pack arguments up in a seq
-  (defn count-args [& args]
-    (str (count args) " args: " args))
-  (is (= "3 args: (1 2 3)" (count-args 1 2 3)))
-
-  (defn hello-count [name & args]
-    (str "Hello " name ", args: " args))
-  (is (= "Hello SH, args: (1 2 3)" (hello-count "SH" 1 2 3))))
-
-
-(deftest let-test
-  (let [name "SH"]
-    (is (= name "SH"))
-    (is (not (= name "HJ"))))
-
-  (defn f []
-    (let [a "a"]
-      {:a a}))
-
-  (is (= {:a "a"} (f)))
-
-  (letfn [(add-5 [x]
-            (+ x 5))]
-    (is (= 8 (add-5 3))))
-
-  (letfn [(add-3 [x] (+ x 3))]
-    (let [x 1]
-      (is (= 4 (add-3 x))))))
 
 
 (deftest useful-forms-test
