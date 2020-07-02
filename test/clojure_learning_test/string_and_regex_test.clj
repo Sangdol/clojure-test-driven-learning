@@ -2,6 +2,11 @@
   (:require [clojure.test :refer :all]
             [clojure.string :as s]))
 
+
+(deftest concat-str-test
+  (is (= "abcd" (str "ab" "cd"))))
+
+
 (deftest misc-test
   (is (= "cba" (s/reverse "abc"))))
 
