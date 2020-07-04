@@ -1,3 +1,4 @@
+; ns cheat-sheet https://gist.github.com/ghoseb/287710/
 (ns clojure-learning-test.importing_test
   (:require [clojure.test :refer :all])
   ; Using asterisk(*) is not possible
