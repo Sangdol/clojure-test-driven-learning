@@ -227,7 +227,10 @@
     (is (= 120 (loop [x 5 acc 1] ;; factorial
                  (if (> x 1)
                    (recur (dec x) (* acc x))
-                   acc))))))
+                   acc)))))
+
+  (testing "zip"
+    (is (= [[1 "a"] [2 "b"]] (map vector [1 2] ["a" "b"])))))
 
 
 (deftest class-test
