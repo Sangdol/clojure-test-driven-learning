@@ -167,6 +167,7 @@
       (is (= newkeymap {:a 1 :b 2 :c 3 :d 4}))
       (is (= {:a 1 :b 2} (dissoc newkeymap :c :d)))))
 
+  (is (= '(:a :b) (keys {:a 1 :b 2})))
   (is (= '(1 2) (vals {:a 1 :b 2})))
   (is (= 1 (first (vals {:a 1 :b 2}))))
 
