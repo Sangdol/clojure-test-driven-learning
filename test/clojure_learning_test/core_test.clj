@@ -126,8 +126,18 @@
   (is 0)
   (is -1)
   (is true)
+  (is [])
   (is (not nil))
-  (is (not false)))
+  (is (not false))
+
+  ; to differentiate 'nil' and 'false'
+  (is (nil? nil))
+  (is (false? false))
+  (is (not (false? nil)))
+
+  ; to check emptiness of a seq
+  (is (not (seq [])))
+  (is (empty? [])))
 
 
 (deftest contains?-test

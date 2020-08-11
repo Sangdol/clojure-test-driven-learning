@@ -195,7 +195,7 @@
 
   ; output of clojure.core/gensym e.g. foo_1865__auto__. to avoid variable capture problems
   (is (= (count (distinct `(foo# foo#))) 1))
-  
+
   (is (= `[:a c] [:a 'clojure-learning-test.syntax-test/c]))
   (is (= `[:a c] `[:a ~`c]))
   (is (= `{:a '~(+ 1 1)} {:a '(quote 2)}))
