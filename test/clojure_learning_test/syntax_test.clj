@@ -168,12 +168,16 @@
     ;(is (= 1 (when-let [a (seq x) b (seq y)] (cons a b)))) ;; cannot bind more than 1 in when-let
 
 
+;; https://clojure.org/reference/metadata
 (deftest metadata-test
-  (is (= {:any "hoy"} (meta ^{:any "hoy"} [1])))
-  (is (= {:any "hoy"} (meta (with-meta [1] {:any "hoy"}))))
-  (is (= {:tag java.lang.String} (meta ^String [1])))
-  (is (= {:tag java.lang.Long} (meta ^Long [1])))
-  (is (= {:dynamic true} (meta ^:dynamic [1])))
+  (is (= {:any "hoy"} (meta ^{:any "hoy"} [])))
+  (is (= nil (meta ^{:any "hoy"} 'a)))  ; why is this nil?
+  (is (= {:any "hoy"} (meta (with-meta 'data {:any "hoy"}))))
+
+  (is (= {:tag java.lang.String} (meta ^String [])))
+  (is (= {:tag java.lang.Long} (meta ^Long [])))
+
+  (is (= {:dynamic true} (meta ^:dynamic [])))
 
   (let [wm (with-meta [] {:a 10})]
     (is (= {:a 10} (meta wm)))
