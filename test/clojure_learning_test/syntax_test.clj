@@ -107,18 +107,36 @@
 (deftest destructuring-test
   (let [[a b c & d :as e] [1 2 3 4 5 6]]
     (is (= [a b c d e] [1 2 3 '(4 5 6) [1 2 3 4 5 6]])))
+
   (let [[[a b][c d]] [[1 2][3 4]]]
     (is (= [a b c d] [1 2 3 4])))
+
   (let [[a b & c :as str] "abcd"]
     (is (= [a b c str] [\a \b '(\c \d) "abcd"])))
+
   (let [{a :a, b :b, :as m :or {a 2 b 3}} {:a 5 :c 6}]
     (is (= [a b m] [5 3 {:a 5 :c 6}])))
+
+  ; :keys reduces repetition e.g., {abc :abc ...}
   (let [{:keys [a b c]} {:a 1 :b 2}]
     (is (= [a b c] [1 2 nil])))
+
+  ; it works with a list as well
+  (let [{:keys [a b c]} '(:a 1 :b 2)]
+    (is (= [a b c] [1 2 nil])))
+
+  ; associative destructuring
+  ; \a: char a
+  (let [{first 0 third 2} "abcd"]
+    (is (= [first third] [\a \c])))
+
   (let [m {:x/a 1, :y/b 2}
         {:keys [x/a y/b]} m]
     (is (= [a b] [1 2])))
-  (let [m {::a 1, ::b 2} ; auto-resolved keyword - what is that? http://stackoverflow.com/questions/2481984/when-should-clojure-keywords-be-in-namespaces
+
+  ; auto-resolved keyword
+  ; what is that? http://stackoverflow.com/questions/2481984/when-should-clojure-keywords-be-in-namespaces
+  (let [m {::a 1, ::b 2}
         {:keys [::a ::b]} m]
     (is (= [a b] [1 2])))
 
