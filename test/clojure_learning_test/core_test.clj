@@ -113,11 +113,16 @@
   (is (= nil (keyword 1)))                                  ; only convert strings
 
   ;; http://kotka.de/blog/2010/05/Did_you_know_III.html
+  ;; :: -> qualified or prefixed keyword
   (is (= :clojure-learning-test.core-test/a ::a))
   (is (= :clojure.math.numeric-tower/abs ::math/abs))
 
   (is (= 'abc (symbol "abc")))
-  (is (= 'abc/def (symbol "abc" "def"))))
+  (is (= 'abc/def (symbol "abc" "def")))
+  (is (not (identical? 'a 'a)))
+  (is (= 'a 'a))
+  (let [x 'a, y x]
+    (is (identical? x y))))
 
 
 (deftest truthy-falsey-test
