@@ -2,7 +2,10 @@
   (:require [clojure.test :refer :all]))
 
 
+;;
+;; Check out Java regex document https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html
 ;; Don't use re-matcher, re-groups, and re-find (Java Matcher object).
+;;
 
 
 (deftest basic-test
