@@ -202,6 +202,7 @@
   (is (= '(4 1 2 3) (cons 4 '(1 2 3))))
   (is (= '([] 1) (cons [] [1])))
   (is (= [[] 1] (cons [] [1])))
+  (is (= (cons 1 '(2 3)) (conj '(2 3) 1)))
 
   ;; Conj add an item to a collection in the most effective way.
   ;; e.g.,
