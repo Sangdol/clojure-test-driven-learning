@@ -11,7 +11,9 @@
   (is (counted? {1 2}))
   (is (not (counted? (lazy-seq [1])))))
 
-(deftest list-accessor-test
+(deftest list-vector-accessor-test
+  ;; Use vector for looking up by index
+  ;; it takes O(n) for a list to do that.
   (is (= 2 (get [1 2] 1)))
   (is (= 2 (get {:a 1 :b 2} :b)))
   (is (= "missing" (get {:a 1 :b 2} :z "missing")))
