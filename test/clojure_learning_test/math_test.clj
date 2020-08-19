@@ -2,13 +2,19 @@
   (:require [clojure.test :refer :all]
             [clojure.math.numeric-tower :as math]))
 
+
+(deftest comparison-test
+  (is (= 1 1 1))
+  (is (< 1 2 3)))
+
+
 (deftest core-math-test
   (is (= 3 (quot 15 5)))
   (is (= 3 (quot 15 4)))
   (is (= -3 (quot -15 4)))
 
-  (is (= -15/4 (/ -15 4)))
-  )
+  (is (= -15/4 (/ -15 4))))
+
 
 ; Math
 ; clojure.math.numeric-tower
@@ -22,5 +28,5 @@
          (is (= 72 (math/lcm 24 18)))
          (is (= 1.0 (math/floor 1.9)))
          (is (= 2.0 (math/ceil 1.1)))
-         (is (= 2 (math/round 1.5)))
-         )
+         (is (= 2 (math/round 1.5))))
+
