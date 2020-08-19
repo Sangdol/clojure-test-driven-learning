@@ -179,6 +179,16 @@
   (is (= "cba" (apply str (reverse "abc")))))
 
 
+(deftest apply-reduce-test
+  ;; https://stackoverflow.com/questions/3153396/clojure-reduce-vs-apply
+  ;; apply is more idiomatic
+  (is (= (apply + (range 10)) (reduce + (range 10))))
+
+  ;; they are not the same
+  (is (= {:a 1 :b 2} (apply hash-map [:a 1 :b 2])))
+  (is (= {{{:a 1} :b} 2} (reduce hash-map [:a 1 :b 2]))))
+
+
 (deftest some-test
   (is (= true (some even? '(1 2 3))))
   (is (= nil (some even? '(1 3 5))))
