@@ -129,7 +129,9 @@
   (let [v [1 2 3]]
     (is (= [1 2 3 4] (conj v 4))) ; push
     (is (= [1 2] (pop v)))
-    (is (= 3 (peek v))))) ; peek() takes O(1). last() takes O(n).
+    (is (= 3 (peek v)))) ; peek() takes O(1). last() takes O(n).
+
+  (is (= [3 4 5] (subvec (vec (range 10)) 3 6))))
 
 
 (deftest list-vec-test
@@ -234,7 +236,10 @@
 
   (let [map {:a 1}]
     (is (= [:a 1]
-           (reduce #(vec [(first %2) (second %2)]) [] map)))))
+           (reduce #(vec [(first %2) (second %2)]) [] map))))
+
+  ;; map entries are vector
+  (is (vector? (first {:a 1 :b 2}))))
 
 (deftest sets-test
   (is (= clojure.lang.PersistentHashSet (class #{1 2 3})))
