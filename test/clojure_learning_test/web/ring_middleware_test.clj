@@ -21,9 +21,9 @@
 (deftest anti-forgery-site-test
   (let [res (anti-forgery-site (request :post "/" {:name "sd"}))]
     (is (= 403 (:status res)))
-    (is (= "<h1>Invalid anti-forgery token</h1>" (:body res)))
-    )
-  )
+    (is (= "<h1>Invalid anti-forgery token</h1>" (:body res)))))
+
+
 
 (def site
   (wrap-defaults
@@ -37,12 +37,12 @@
     (is (= "Hello world!" (:body res))))
 
   (let [res (site (request :post "/" {:name "sd"}))]
-    (is (= 303 (:status res)))
-    )
-  )
+    (is (= 303 (:status res)))))
+
+
 
 (deftest response-test
   (is (= {:status 200 :headers {} :body "Hi"} (response/response "Hi")))
   (is (= {:status 200 :headers {"Content-Type" "text/html; charset=utf-8"} :body "Hi"}
-         (response/content-type (response/response "Hi") "text/html; charset=utf-8")))
-  )
+         (response/content-type (response/response "Hi") "text/html; charset=utf-8"))))
+
