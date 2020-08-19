@@ -1,3 +1,5 @@
+# Clojure tests
+
 ## Clojure tests
 
 ### How to run
@@ -48,4 +50,15 @@ Or,
 npm install karma --save-dev && \
     npm install karma-cljs-test --save-dev && \
     npm install karma-chrome-launcher --save-dev
+```
+
+## Etc.
+
+### Class Diagram
+
+https://github.com/stuartsierra/class-diagram
+
+```clojure
+(require '[com.stuartsierra.class-diagram :as diagram])
+(diagram/view clojure.lang.PersistentList)
 ```
