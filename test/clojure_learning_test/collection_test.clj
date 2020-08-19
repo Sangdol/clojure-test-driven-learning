@@ -205,6 +205,12 @@
     (is (= '(:b :a) (keys (hash-map :a 1 :b 2))))
     (is (= clojure.lang.APersistentMap$KeySeq (class (keys (hash-map :a 1))))))
 
+  ;; collection types can be used as functions
+  (is (= 1 ({:a 1} :a)))
+
+  (is (= {:a 1 :b 2} (into {} [[:a 1] [:b 2]])))
+  (is (= {:a 1 :b 2} (zipmap [:a :b] [1 2])))
+
   ;; Maps can use any hashable type as a key, but usually keywords are best
   ;; Keywords are like strings with some efficiency bonuses
   (is (= clojure.lang.Keyword (class :a)))
