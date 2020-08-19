@@ -152,7 +152,11 @@
   (is (not (contains? "a" 1)))
   (is (contains? [:a] 0))
   (is (not (contains? [:a] :a)))
-  (is (contains? #{"a" "b" "c"} "a")))                      ; the members of a set are the keys
+  ; the members of a set are the keys
+  (is (contains? #{"a" "b" "c"} "a"))
+
+  ;; don't get confused with string contains
+  (is (.contains "Abc def" "bc")))
 
 
 (deftest iterate-test
