@@ -2,6 +2,15 @@
 (ns clojure-learning-test.collection-test
   (:require [clojure.test :refer :all]))
 
+
+(deftest counted-test
+  ;; counted? tells if you can know the size in a constant time.
+  (is (counted? [1]))
+  (is (counted? '(1)))
+  (is (counted? #{1}))
+  (is (counted? {1 2}))
+  (is (not (counted? (lazy-seq [1])))))
+
 (deftest list-accessor-test
   (is (= 2 (get [1 2] 1)))
   (is (= 2 (get {:a 1 :b 2} :b)))
