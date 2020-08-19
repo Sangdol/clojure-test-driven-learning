@@ -91,9 +91,45 @@
   (is (= [1 2 3] (map first (tree-seq next rest [1 [2 [3]]])))))
 
 
-(deftest vector-init
+(deftest vector-test
+  ;; init
   (is (= [0 0 0] (vec (repeat 3 0))))
-  (is (= [[0 0 0] [0 0 0]] (vec (repeat 2 (vec (repeat 3 0)))))))
+  (is (= [[0 0 0] [0 0 0]] (vec (repeat 2 (vec (repeat 3 0))))))
+
+  ;; add
+  (is (= [1 2 3] (into [1 2] [3])))
+  (is (= [1 2 3] (into [1 2] #{3})))
+  ;; if the first argument is set the result is set
+  (is (= #{1 2 3} (into #{ 1 2} [3])))
+
+  ;; vector-of
+  (is (= [3 2 1] (into (vector-of :int) [3.1 2 1.1])))
+
+  ;; lookup
+  (let [v [1 2 3]]
+    (is (= (nth v 1) (get v 1) (v 1))))
+  (is (= nil (nth nil 1) (get nil 1)))
+  (is (= :not-found (nth nil 1 :not-found) (get nil 1 :not-found)))
+
+  ;; when index is out of range
+  (is (thrown? IndexOutOfBoundsException (nth [] 1)))
+  (is (thrown? IndexOutOfBoundsException ([] 1)))
+  (is (= nil (get [] 1)))
+
+  ;; update value
+  (is (= [1 10 3] (assoc [1 2 3] 1 10)))
+
+  ;; get-in, assoc-in, update-in (matrix)
+  (let [matrix [[1] [2] [3]]]
+    (is (= 2 (get-in matrix [1 0])))
+    (is (= [[1] [10] [3]] (assoc-in matrix [1 0] 10)))
+    (is (= [[1] [20] [3]] (update-in matrix [1 0] * 10))))
+
+  ;; vector as a stack (clojure.lang.IPersistentStack)
+  (let [v [1 2 3]]
+    (is (= [1 2 3 4] (conj v 4))) ; push
+    (is (= [1 2] (pop v)))
+    (is (= 3 (peek v))))) ; peek() takes O(1). last() takes O(n).
 
 
 (deftest list-vec-test
@@ -148,7 +184,13 @@
     Array maps exist because they are faster for small maps
     "
     (is (= clojure.lang.PersistentArrayMap (class {:a 1 :b 2 :c 3})))
-    (is (= clojure.lang.PersistentHashMap (class (hash-map :a 1 :b 2 :c 3)))))
+    (is (= clojure.lang.PersistentHashMap (class (hash-map :a 1 :b 2 :c 3))))
+
+    (is (= '([:b 2] [:a 1]) (seq (hash-map :a 1 :b 2))))
+    (is (= clojure.lang.PersistentHashMap$NodeSeq (class (seq (hash-map :a 1)))))
+
+    (is (= '(:b :a) (keys (hash-map :a 1 :b 2))))
+    (is (= clojure.lang.APersistentMap$KeySeq (class (keys (hash-map :a 1))))))
 
   ;; Maps can use any hashable type as a key, but usually keywords are best
   ;; Keywords are like strings with some efficiency bonuses
