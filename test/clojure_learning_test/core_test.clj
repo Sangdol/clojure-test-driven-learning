@@ -135,6 +135,11 @@
   (is (not nil))
   (is (not false))
 
+  ; true and truthy is different
+  (is (true? true))
+  (is (not (true? 1)))
+  (is (not (true? [])))
+
   ; to differentiate 'nil' and 'false'
   (is (nil? nil))
   (is (false? false))
