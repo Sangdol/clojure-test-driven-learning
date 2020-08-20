@@ -155,6 +155,12 @@
     (is (= 1 1))
     (is (= 2 2)))
 
+  ; (if :truthy-thing)
+  ;   (let [res :truthy-thing] (println res))
+  ;
+  ; the above code can be reduced using if-let:
+  ;
+  ; (if-let [res :truthy-thing] (println res)
   (let [x [1 2] y []]
     (is (= 1 (if-let [a (seq x)] (first a) "else")))
     (is (= "else" (if-let [a (seq y)] (first a) "else"))))
