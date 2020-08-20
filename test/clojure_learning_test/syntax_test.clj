@@ -73,7 +73,13 @@
 
   (defn hello-count [name & args]
     (str "Hello " name ", args: " args))
-  (is (= "Hello SH, args: (1 2 3)" (hello-count "SH" 1 2 3))))
+  (is (= "Hello SH, args: (1 2 3)" (hello-count "SH" 1 2 3)))
+
+  (defn default-arg-func
+    [a & {:keys [b] :or {b 1}}]
+    (+ a b))
+  (is (= 2 (default-arg-func 1)))
+  (is (= 10 (default-arg-func 5 :b 5))))
 
 
 (deftest let-test
