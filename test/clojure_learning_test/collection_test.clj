@@ -205,6 +205,10 @@
     (is (= '(:b :a) (keys (hash-map :a 1 :b 2))))
     (is (= clojure.lang.APersistentMap$KeySeq (class (keys (hash-map :a 1))))))
 
+  ;; default value
+  (is (= :default ({:a 1} :b :default)))
+  (is (= :default (get {:a 1} :b :default)))
+
   ;; collection types can be used as functions
   (is (= 1 ({:a 1} :a)))
 
