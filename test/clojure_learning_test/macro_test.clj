@@ -7,6 +7,10 @@
   ; take a list and execute it
   (is (= 3 (eval '(+ 1 2))))
   (is (= 3 (eval (list + 1 2))))
+
+  (is (= '((inc 1)) '((inc 1))))
+  (is (= '(2) (list (inc 1))))
+
   (let [x [1 2]]
     (is (= 5 (eval `(+ ~@(map inc x) 0))))))
 
@@ -52,6 +56,75 @@
          (walk/macroexpand-all '(clojure-learning-test.macro-test/do-until true 1)))))
 
 
+; this is the same as 'if'
+(defmacro ternary [& xs]
+  (list 'if (first xs)
+        (second xs)
+        (nth xs 2)))
+
+
+(defmacro mfirst [& xs]
+  `(first '~xs))
+
+
+(deftest ternary-test
+  (is (= 1 (ternary true 1 2)))
+  (is (= 2 (ternary false 1 2)))
+
+  (is (= true (mfirst true 1 2)))
+  (is (= 1 (mfirst 1 2))))
+  ;(is (= 2 (ternary2 false 1 2))))
+
+
+(defn just-unquote-func [& xs]
+  `~xs)
+
+
+(defmacro just-unquote [& xs]
+  `~xs)
+
+
+(deftest just-unquote-test
+  (is (= '(1 2 3 4) (just-unquote-func 1 2 3 4)))
+  (is (= 10 (just-unquote + 1 2 3 4)))
+  (is (= 24 (just-unquote * 1 2 3 4))))
+
+
+(def x 100)
+
+; being resolved at macro-expansion time
+(defmacro resolution [x] `x)
+
+; how does this take 1?
+;   it's `x` after an expansion.
+(defmacro resolution2 [x] 'x)
+
+(defmacro resolution3 [x] `~x)
+(defmacro resolution4 [x] ``~~x)
+(defmacro resolution5 [x] `(+ ~'x))
+
+
+(deftest resolution-test
+  (let [x 1]
+    (is (= 100 (resolution 2)))
+    (is (= 'clojure-learning-test.macro-test/x
+           (macroexpand '(clojure-learning-test.macro-test/resolution 2))))
+
+    (is (= 1 (resolution2 2)))
+    (is (= 'x
+           (macroexpand '(clojure-learning-test.macro-test/resolution2 2))))
+
+    (is (= 2 (resolution3 2)))
+    (is (= 2
+           (macroexpand '(clojure-learning-test.macro-test/resolution3 2))))
+
+    (is (= 2 (resolution4 2)))
+
+    (is (= 1 (resolution5 2)))
+    (is (= '(clojure.core/+ x)
+           (macroexpand '(clojure-learning-test.macro-test/resolution5 2))))))
+
+
 (defn hello [target]
   (str "Hello, " target "!"))
 
@@ -67,7 +140,7 @@
 (def-hello hello-hj "HJ")
 
 
-(deftest defmacro-test
+(deftest simple-defmacro-test
   (is (= "Hello, Sang!" (hello-sang)))
   (is (= "Hello, HJ!" (hello-hj))))
 
