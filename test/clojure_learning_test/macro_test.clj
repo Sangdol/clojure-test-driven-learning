@@ -12,7 +12,19 @@
   (is (= '(2) (list (inc 1))))
 
   (let [x [1 2]]
-    (is (= 5 (eval `(+ ~@(map inc x) 0))))))
+    (is (= 5 (eval `(+ ~@(map inc x) 0)))))
+
+  (is (= 3 (eval (read-string "(+ 1 2)")))))
+
+
+(deftest read-string-test
+  (is (map? (read-string "{}")))
+  (is (set? (read-string "#{}")))
+  (is (list? (read-string "()")))
+  (is (not (list? (read-string "#()"))))
+  (is (coll? (read-string "#()")))
+  (is (fn? (eval (read-string "#()"))))
+  (is (vector? (read-string "[]"))))
 
 
 (deftest macroexpand-test
