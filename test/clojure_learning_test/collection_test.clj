@@ -260,7 +260,10 @@
            (reduce #(vec [(first %2) (second %2)]) [] map))))
 
   ;; map entries are vector
-  (is (vector? (first {:a 1 :b 2}))))
+  (is (vector? (first {:a 1 :b 2})))
+
+  (is (= [:a 1] (find {:a 1} :a)))
+  (is (= 1 ({:a 1} :a))))
 
 (deftest sets-test
   (is (= clojure.lang.PersistentHashSet (class #{1 2 3})))
