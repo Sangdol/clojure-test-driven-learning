@@ -3,6 +3,19 @@
             [clojure.string :as s]))
 
 
+;; Don't use re-matcher, re-groups, and re-find (Java Matcher object).
+;; - from "The joy of Clojure"
+
+
+(deftest split-test
+  ; multiline
+  (is (= ["" "\n" "\n"] (s/split "a\na\na" #"(?m)^a")))
+
+  ; limit
+  (is (= ["a b c"] (s/split "a b c" #" " 1)))
+  (is (= ["a" "b c"] (s/split "a b c" #" " 2))))
+
+
 (deftest concat-str-test
   (is (= "abcd" (str "ab" "cd"))))
 
