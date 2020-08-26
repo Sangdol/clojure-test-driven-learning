@@ -7,6 +7,11 @@
 ;; - from "The joy of Clojure"
 
 
+(deftest strip-quotes-test
+  (let [re-no-quote #"[\^\"\"$]"]
+    (is (= "abc" (s/replace "\"abc\"" re-no-quote "")))))
+
+
 (deftest split-test
   ; multiline
   (is (= ["" "\n" "\n"] (s/split "a\na\na" #"(?m)^a")))
