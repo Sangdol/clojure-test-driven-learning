@@ -314,6 +314,14 @@
            (dissoc :b))
          (dissoc (assoc {:a 1 :b 2} :c 3) :b)))
 
+  ;; you need to put an extra parens for anonymous functions
+  ;; https://stackoverflow.com/questions/10740265/threading-macro-with-anonymous-functions
+  (is (= (->
+           {:a 1 :b 2}
+           (#(assoc % :c 3))
+           ((fn [x] (dissoc x :b))))
+         (dissoc (assoc {:a 1 :b 2} :c 3) :b)))
+
   (is (= (->
            10
            -) -10))
