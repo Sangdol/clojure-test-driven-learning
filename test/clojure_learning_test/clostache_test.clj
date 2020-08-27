@@ -20,7 +20,10 @@
          (render "{{!comment}}Hello, {{name}}!" {:name "world"})))
 
   (is (= "Hello, world!"
-         (render "Hello, {{world.name}}!" {:world {:name "world"}}))))
+         (render "Hello, {{world.name}}!" {:world {:name "world"}})))
+
+  (is (= "&lt; < <"
+         (render "{{arrow}} {{&arrow}} {{{arrow}}}" {:arrow "<"}))))
 
 
 (deftest iteration-test
