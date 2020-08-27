@@ -1,9 +1,18 @@
 ;; https://github.com/fhd/clostache
 (ns clojure-learning-test.clostache_test
   (:require [clojure.test :refer :all]
-            [clostache.parser :refer :all]))
+            [clostache.parser :refer :all]
+            [clojure.walk :as walk]))
 
 (deftest variable-replacement-test
+  ; it doesn't work for a string key.
+  (is (= "Hello, !"
+         (render "Hello, {{name}}!" {"name" "world"})))
+
+  ; turn string keys to keywords
+  (is (= "Hello, world!"
+         (render "Hello, {{name}}!" (walk/keywordize-keys {"name" "world"}))))
+
   (is (= "Hello, world!"
          (render "Hello, {{name}}!" {:name "world"})))
 
