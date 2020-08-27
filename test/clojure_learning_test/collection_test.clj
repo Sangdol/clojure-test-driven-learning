@@ -129,6 +129,7 @@
 
   ;; update value
   (is (= [1 10 3] (assoc [1 2 3] 1 10)))
+  (is (= [1 2 3 10] (assoc [1 2 3] 3 10)))
 
   ;; get-in, assoc-in, update-in (matrix)
   (let [matrix [[1] [2] [3]]]
