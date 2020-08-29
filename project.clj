@@ -21,7 +21,8 @@
                  [com.stuartsierra/class-diagram "0.1.0"]
                  [markdown-clj "1.10.5"]
                  [stasis "2.5.0"]
-                 [clojure.java-time "0.3.2"]]
+                 [clojure.java-time "0.3.2"]
+                 [clj-rss "0.2.5"]]
   :plugins [[lein-cljsbuild "1.1.7"]
             [venantius/ultra "0.6.0"]]
   :main ^:skip-aot clojure-learning-test.core
