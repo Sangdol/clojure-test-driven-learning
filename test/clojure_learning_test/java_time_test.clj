@@ -11,7 +11,8 @@
 (ns clojure-learning-test.java-time-test
   (:require [clojure.test :refer :all]
             [java-time :as time])
-  (:import (java.time ZoneId)))
+  (:import (java.time ZoneId)
+           (java.util Date)))
 
 
 ; https://github.com/build-canaries/clj-cctray/blob/085e1d5b9e2d1c83928d3f5746f86d19193d353e/src/clj_cctray/dates.clj
@@ -35,4 +36,10 @@
   ; https://github.com/metabase/second-date
   (is (= "2019/02/04"
          (time/format "yyyy/MM/dd"
-                      (time/offset-date-time "2019-02-04T20:17:00+01:00")))))
+                      (time/offset-date-time "2019-02-04T20:17:00+01:00"))))
+
+  (is (= 1549307820000
+         (.toEpochMilli (.toInstant (time/offset-date-time "2019-02-04T20:17:00+01:00")))))
+
+  (is (= (Date. 1549307820000)
+         (Date. (.toEpochMilli (.toInstant (time/offset-date-time "2019-02-04T20:17:00+01:00")))))))
