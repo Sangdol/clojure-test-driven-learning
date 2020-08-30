@@ -1,3 +1,13 @@
+;;
+;; java time library
+;; https://github.com/dm3/clojure.java-time
+;;
+;; second date from metabase
+;; https://github.com/metabase/second-date
+;;
+;; my java datetime tests
+;; https://github.com/Sangdol/java-test-driven-learning/blob/master/src/test/java/Java8/Date/StandardCalendarDateTimeTest.java
+;;
 (ns clojure-learning-test.java-time-test
   (:require [clojure.test :refer :all]
             [java-time :as time])
