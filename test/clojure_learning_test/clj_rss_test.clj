@@ -35,4 +35,6 @@
   </channel>
 </rss>
 "
-         (ppxml (rss/channel-xml {:title "abc" :link "https://iamsang.com" :description "hello"})))))
+         (ppxml (rss/channel-xml {:title "abc"
+                                  :link "https://iamsang.com"
+                                  :description "hello"})))))
