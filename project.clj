@@ -17,7 +17,7 @@
                  [com.h2database/h2 "1.4.190"]
                  [org.clojure/math.numeric-tower "0.0.4"]
                  [org.clojure/data.csv "1.0.0"]
-                 [de.ubercode.clostache/clostache "1.4.0"]
+                 [cljstache "2.0.6"]
                  [com.stuartsierra/class-diagram "0.1.0"]
                  [markdown-clj "1.10.5"]
                  [stasis "2.5.0"]

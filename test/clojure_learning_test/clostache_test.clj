@@ -1,7 +1,7 @@
 ;; https://github.com/fhd/clostache
 (ns clojure-learning-test.clostache_test
   (:require [clojure.test :refer :all]
-            [clostache.parser :refer :all]
+            [cljstache.core :refer :all]
             [clojure.walk :as walk]))
 
 (deftest variable-replacement-test
