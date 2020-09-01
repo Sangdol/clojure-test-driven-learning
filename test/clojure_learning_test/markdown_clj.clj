@@ -7,4 +7,6 @@
 (deftest string-to-string-test
   (is (= "<h1>hello</h1>" (md/md-to-html-string "# hello")))
   (is (= "<h1 id=\"hello\">hello</h1>"
-         (md/md-to-html-string "# hello" :heading-anchors true))))
+         (md/md-to-html-string "# hello" :heading-anchors true)))
+  (is (= "<p>$ hello</p>"
+         (md/md-to-html-string "$ hello" :heading-anchors true))))
