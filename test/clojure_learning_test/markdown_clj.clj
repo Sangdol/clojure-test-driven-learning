@@ -10,3 +10,11 @@
          (md/md-to-html-string "# hello" :heading-anchors true)))
   (is (= "<p>$ hello</p>"
          (md/md-to-html-string "$ hello" :heading-anchors true))))
+
+
+(deftest code-test
+  (is (= "<pre><code class=\"clojure\">some code
+</code></pre>"
+         (md/md-to-html-string "```clojure
+some code
+```"))))
