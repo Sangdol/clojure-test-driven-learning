@@ -1,13 +1,18 @@
+;; Comment guideline
+;; https://github.com/bbatsov/clojure-style-guide#comments
 (comment
   Reader - http://clojure.org/reader
 
   TODO Special forms - http://clojure.org/special_forms)
 
+;; Rich comment block
+;; https://betweentwoparens.com/rich-comment-blocks#example-comments-ref
 (comment "
   Another way to put a multiline comment.
   This form doesn't need to follow the rule of the reader.
 ")
 
+;; Discard comment
 #_(can I just put like this?
        This is another way to put a multiline comment)
 
