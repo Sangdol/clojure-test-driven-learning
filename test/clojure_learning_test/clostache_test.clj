@@ -1,4 +1,5 @@
-;; https://github.com/fhd/clostache
+;; https://github.com/fhd/clostache 1.x
+;; https://github.com/fotoetienne/cljstache 2.x
 (ns clojure-learning-test.clostache_test
   (:require [clojure.test :refer :all]
             [cljstache.core :refer :all]
@@ -29,6 +30,11 @@
 (deftest iteration-test
   (is (= "1 2 3 "
          (render "{{#n}}{{.}} {{/n}}"
+                 {:n [1 2 3]})))
+
+  ;; not (inverted section)
+  (is (= "100"
+         (render "{{^m}}100{{/m}}"
                  {:n [1 2 3]})))
 
   (is (= "1 2 "
