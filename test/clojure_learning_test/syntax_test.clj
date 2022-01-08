@@ -345,11 +345,7 @@
 
 ;; Comment guideline
 ;; https://github.com/bbatsov/clojure-style-guide#comments
-(comment
-  Reader - http://clojure.org/reader
-
-  TODO Special forms - http://clojure.org/special_forms)
-
+;;
 ;; Rich comment block
 ;; https://betweentwoparens.com/rich-comment-blocks#example-comments-ref
 (comment "
