@@ -24,8 +24,8 @@
                  [clojure.java-time "0.3.2"]
                  [clj-rss "0.2.5"]
                  [cheshire "5.10.0"]]
-  :plugins [[lein-cljsbuild "1.1.7"]
-            [venantius/ultra "0.6.0"]]
+  :plugins [[lein-cljsbuild "1.1.7"]]
+
   :main ^:skip-aot clojure-learning-test.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
