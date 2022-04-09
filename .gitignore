@@ -12,6 +12,8 @@ pom.xml.asc
 /.nrepl-port
 .hgignore
 .hg/
+.clj-kondo/
+.lsp/
 
 # For ClojureScript
 out/
